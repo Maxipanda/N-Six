@@ -4,3 +4,9 @@ N-Six.csproj.user
 *.suo
 *.cache
 *.cs
+*.dll
+*.config
+*.pdb
+*.db
+obj/Debug/N-Six.csproj.FileListAbsolute.txt
+images/Thumbs.db
