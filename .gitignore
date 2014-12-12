@@ -1,0 +1,6 @@
+*.csproj
+N-Six.csproj.user
+*.sln
+*.suo
+*.cache
+*.cs
