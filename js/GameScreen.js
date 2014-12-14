@@ -1,5 +1,5 @@
 // Game Screen
-var GameScreen {
+var GameScreen = {
 	initialize : function() {
 		
 	},
@@ -23,7 +23,7 @@ var LoadScreen = function() {
 LoadScreen.prototype = Object.create(GameScreen);
 
 LoadScreen.prototype.initialize = function() {
-	
+	console.log('LoadScreen initialize');
 };
 
 LoadScreen.prototype.update = function() {
