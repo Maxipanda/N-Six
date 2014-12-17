@@ -120,6 +120,7 @@ function GameEntity(x,y,z,collisionGroups,collisionFilters, hitBox){
 *
 * @param weaponId
 */
+
 var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) {
 	GameEntity.call(this, x,y,z,collisionGroups,collisionFilters, hitBox); 
     this.weaponId = weaponId;
@@ -132,7 +133,7 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
 	this.render = function(g){
 		this.checkCoordinates("Function render undefined coordinates");
         if(g == undefined){alert("Function render undefined parameter g (HTMLCanvas2DContext)");}
-		g.drawImage(assetManager.getImage("player"), this.x, this.y);
+		g.drawImage(assetManager.getImage("img-spaceship1"), this.x, this.y);
     }
 	
 	this.shoot = function(){
