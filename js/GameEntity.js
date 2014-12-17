@@ -162,23 +162,23 @@ var Enemy = function(x,y,z,collisionGroups,collisionFilters, hitBox) {
 	GameEntity.call(this, x,y,z,collisionGroups,collisionFilters, hitBox);
 	
 	this.destX = Math.floor((Math.random() * 500));
-	this.destX -= this.destX%2;
+	this.destX += this.destX % 2;
 	this.destY = Math.floor((Math.random() * 300));
-	this.destX -= this.destY%4;
+	this.destY += 4 - this.destY % 4;
 	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
-		if(this.destX != this.x){
+		
+		if(this.destX < this.x)
 			this.x += -2;
-		}
-		/*
-		else if(this.destY != this.y){
-			this.destY = 0;
-		}		
-		if(this.destY != this.y){
-			this.y += -4;
-		}		
-		*/
+		else if(this.destY == this.y)
+			this.destX = 0;
+		
+		if(this.destY > this.y)
+			this.y += 4;
+		else if (this.destY < this.y)
+			this.y -= 4;
+		
     }
 	
 	//TODO: Remove when AssetManager is implemented
@@ -261,10 +261,21 @@ var Animation = function(x,y,z,collisionGroups,collisionFilters, hitBox, image, 
 	
     this.numFrame = numFrame;
     this.currFrame = 0;
+    this.speedFrame = 10;
+    this.tempo = 1;
 	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
-		this.currFrame += 1;
+		this.tempo += 1;
+		
+		if(this.tempo % this.speedFrame == 0)
+		{
+			this.tempo =0;
+			this.currFrame += 1;
+		}
+		
+		
+		
 		if(this.currFrame >= numFrame)
 			this.currFrame = 0;
     }
