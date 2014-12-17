@@ -4,6 +4,7 @@ var AssetManager = (function() {
 		var images = {}, audios = {};
 		var successCount = 0, errorCount = 0;
 		var loaded = false;
+		var bgm = null;
 		
 		this.addImage = function(id, src) {
 			images[id] = src;
@@ -80,6 +81,18 @@ var AssetManager = (function() {
 				audio.src = path;
 				audios[key] = audio;
 			}
+		};
+		this.playBGM = function(id) {
+			if(loaded) {
+				if(bgm) {
+					
+				}
+				bgm = audios[id];
+				
+			}
+		};
+		this.playFX = function(id) {
+			
 		};
 		this.init = function(callback) {
 			if(!loaded) {
