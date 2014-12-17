@@ -166,7 +166,7 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
     };
     
     this.removeLife = function() {
-        if(((new Date())-this.lastLife) >= 3000) {
+        if(((new Date())-this.lastLife) >= 1000) {
             this.life--;
             this.lastLife = new Date();
             console.log("plop");
