@@ -167,6 +167,8 @@ var Enemy = function(x,y,z,collisionGroups,collisionFilters, hitBox) {
 	this.destX = x;
 	this.destY = y;
 	
+	this.lastShoot = new Date();
+	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
 		
@@ -222,6 +224,9 @@ var Enemy = function(x,y,z,collisionGroups,collisionFilters, hitBox) {
     }
 	
 	this.shoot = function(){
+		if(this.lastShoot.getTime() <= new Date().getTime() + 1000/60){
+			//var bullet = new Bullet(this.x,this.y,this.z,0,0,0,0)
+		}
     }
 };
 
