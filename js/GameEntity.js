@@ -217,7 +217,8 @@ var Enemy = function(x,y,z,hitBox) {
 				this.destY =432;
 			
 			this.moveTo(this.destX,this.destY);
-		}		
+		}
+		this.hitBox.moveTo(this.x, this.y);
     }
 	
 	this.moveTo = function(x,y)	{
