@@ -37,6 +37,7 @@ function Game() {
         var gameCanvas = document.createElement("canvas");
         gameCanvas.setAttribute("id", "gameCanvas");
         document.getElementById("content").appendChild(gameCanvas);
+
         LevelScreen.prototype.initialize();
         this.setScreen(LevelScreen);
         console.log("End of initialisation...")
