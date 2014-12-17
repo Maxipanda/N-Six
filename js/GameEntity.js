@@ -197,7 +197,7 @@ var Enemy = function(x,y,z,hitBox) {
 		this.checkCoordinates("Function update, undefined coordinates");
 		
 		if(this.x > 640){
-			this.x -= speedX;
+			this.x -= this.speedX;
 		}
 		else{
 			if((this.destX != this.x) || (this.destY != this.y)){
