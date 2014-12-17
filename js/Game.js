@@ -13,6 +13,9 @@ function UneClasse(paramA, paramB){
  
 var instance1 = new UneClasse();
 */
+
+var assetManager;
+
 function Game() {
     this.score = 0;
     this.numLifes = 0;
@@ -48,6 +51,12 @@ function Game() {
     }
 }
 
+function loadAssets(){
+	
+	assetManager = new AssetManager.getInstance();
+	assetManager.init(startTest);
+}
+
 function startTest() {
     game = new Game();
     game.start();
@@ -57,4 +66,4 @@ function startTest() {
     }, 1000 / 60);
 }
 
-window.onload = startTest();
+window.onload = loadAssets();
