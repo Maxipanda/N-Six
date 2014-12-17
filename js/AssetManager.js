@@ -93,11 +93,11 @@ var AssetManager = (function() {
 				this.addImage("img-explosion1", "images/Explosion01.png");
 				this.addImage("img-spaceship1", "images/Spaceship01.png");
 				this.addImage("img-spaceship2", "images/Spaceship02.png");
-				this.addAudio("sound-explosion", "audio/fx/Explosion.mp3");
-				this.addAudio("sound-loose", "audio/fx/Loose.mp3");
-				this.addAudio("sound-weaponchange", "audio/fx/WeaponChange.mp3");
-				this.addAudio("sound-level1", "audio/music/Level01.mp3");
-				this.addAudio("sound-level2", "audio/music/Level02.mp3");
+				this.addAudio("sound-explosion", "audio/fx/Explosion.ogg");
+				this.addAudio("sound-loose", "audio/fx/Loose.ogg");
+				this.addAudio("sound-weaponchange", "audio/fx/WeaponChange.ogg");
+				this.addAudio("sound-level1", "audio/music/Level01.ogg");
+				this.addAudio("sound-level2", "audio/music/Level02.ogg");
 				this.load(callback);
 			}
 		};

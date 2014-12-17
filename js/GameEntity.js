@@ -103,10 +103,7 @@ function GameEntity(x,y,z,collisionGroups,collisionFilters, hitBox){
 		if(entity == undefined){alert("Function hitTest undefined parameter entity (GameEntity)");}
 		if(this.hitBox == undefined){alert("Function hitTest undefined hitBox");}
 		if(entity.hitBox == undefined){alert("Function hitTest undefined parameter hitBox");}
-        if(! this.canCollideWith(entity)){
-			return false;
-		}
-		return this.hitBox.intersect(entity.hitBox);
+        return this.hitBox.intersect(entity.hitBox);
     }
 	
 	this.checkCoordinates = function(messg){
@@ -132,7 +129,7 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
 	this.render = function(g){
 		this.checkCoordinates("Function render undefined coordinates");
         if(g == undefined){alert("Function render undefined parameter g (HTMLCanvas2DContext)");}
-		g.drawImage(assetManager.getImage("player"), this.x, this.y);
+        g.drawImage(assetManager.getImage("img-spaceship1"), this.x, this.y);
     }
 	
 	this.shoot = function(){
@@ -198,7 +195,7 @@ var Enemy = function(x,y,z,collisionGroups,collisionFilters, hitBox) {
 	this.render = function(g){
 		this.checkCoordinates("Function render undefined coordinates");
         if(g == undefined){alert("Function render undefined parameter g (HTMLCanvas2DContext)");}
-		g.drawImage(assetManager.getImage("img-enemy"), this.x, this.y);
+		g.drawImage(assetManager.getImage("img-enemy1"), this.x, this.y);
     }
 	
 	this.shoot = function(){
