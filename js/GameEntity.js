@@ -175,7 +175,7 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
     
 	this.shoot = function(){
     
-    	var bullet = new Bullet(this.x + 43, this.y+5, 0, 0, 0, new Rectangle(this.x + 48, this.y), 0);
+    	var bullet = new Bullet(this.x + 43, this.y+5, 0, 0, 0, new Rectangle(this.x + 48, this.y), 0, 1);
     	//LevelScreen.bulletsPlayer.push(bullet);
     	bulletsPlayer.push(bullet);
     };
