@@ -165,6 +165,7 @@ LevelScreen.prototype.update = function () {
 	
 	var enemiesToDelete = [];
 	var bulletsToDelete = [];
+	var bulletsEnemiesToDelete = [];
 	
     for (i = 0; i < this.enemies.length; i++) {
         for (j = 0; j < bulletsPlayer.length; j++) {
@@ -197,12 +198,11 @@ LevelScreen.prototype.update = function () {
 
         for (j = 0; j < bulletsPlayer.length; j++) {
             if (bulletsPlayer[j].hitTest(this.bulletsEnemies[i])) {
-               console.log("Bullets Collide !");
+				bulletsEnemiesToDelete.push(i);
 
             }
         }
         if (this.player.hitTest(this.bulletsEnemies[i])) {
-            //console.log("Bullets Enemies collide player  !");
         }
     }
     
