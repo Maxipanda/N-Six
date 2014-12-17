@@ -241,19 +241,20 @@ var InfiniteBackground = function(x,y,z,collisionGroups,collisionFilters, hitBox
 	this.BG_WIDTH;
 	this.BG_HEIGHT;
 	
-	this.initialize = function(){
-		
-		this.BG_WIDTH = this.image.width;
-		this.BG_HEIGHT = this.image.height;
+	this.initialize = function () {
+
+	    //this.BG_WIDTH = this.image.width;
+	    //this.BG_HEIGHT = this.image.height;
 	}
-	
-	this.update = function(){
-		
-		// Update background position
-		
-		this.position+=this.speed;
-		if(this.position >= this.BG_WIDTH)
-			this.position = 0;
+
+	this.update = function () {
+
+	    // Update background position
+	    this.BG_WIDTH = this.image.width;
+	    this.BG_HEIGHT = this.image.height;
+	    this.position += this.speed;
+	    if (this.position >= this.BG_WIDTH)
+	        this.position = 0;
 	}
 	
 	this.render = function(graphics){
