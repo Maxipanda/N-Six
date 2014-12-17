@@ -126,6 +126,26 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
 	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
+		/*Check pressed touched*/
+    }
+	
+	//TODO: Remove when AssetManager is implemented
+	if(typeof AssetManager == 'undefined'){
+		this.image= new Image();
+		this.image.src = "./images/Spaceship01.png";
+	}
+	
+	this.render = function(g){
+		this.checkCoordinates("Function render undefined coordinates");
+        if(g == undefined){alert("Function render undefined parameter g (HTMLCanvas2DContext)");}
+		if(typeof AssetManager == 'undefined')
+		{
+			g.drawImage(this.image, this.x, this.y);
+		}
+		else
+		{
+			g.drawImage(AssetManager.getInstance().getImage("player"), this.x, this.y);
+		}
     }
 	
 	this.shoot = function(){
@@ -138,10 +158,40 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
 *
 */
 var Enemy = function(x,y,z,collisionGroups,collisionFilters, hitBox) {
+
 	GameEntity.call(this, x,y,z,collisionGroups,collisionFilters, hitBox);
 	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
+		
+		this.x += -2;
+		
+		if(this.y > 0 && this.y <= 368 )
+		{
+			this.y += Math.floor((Math.random() * 5) - 2);
+			if(this.y <0)
+				this.y = 0;
+		}
+		
+    }
+	
+	//TODO: Remove when AssetManager is implemented
+	if(typeof AssetManager == 'undefined'){
+		this.image= new Image();
+		this.image.src = "./images/Enemy01.png";
+	}
+	
+	this.render = function(g){
+		this.checkCoordinates("Function render undefined coordinates");
+        if(g == undefined){alert("Function render undefined parameter g (HTMLCanvas2DContext)");}
+		if(typeof AssetManager == 'undefined')
+		{
+			g.drawImage(this.image, this.x, this.y);
+		}
+		else
+		{
+			g.drawImage(AssetManager.getInstance().getImage("enemy"), this.x, this.y);
+		}
     }
 	
 	this.shoot = function(){
@@ -162,6 +212,12 @@ var Bonus = function(x,y,z,collisionGroups,collisionFilters, hitBox) {
 		this.checkCoordinates("Function update, undefined coordinates");
     }
 	
+	this.render = function(g){
+		this.checkCoordinates("Function render undefined coordinates");
+        if(g == undefined){alert("Function render undefined parameter g (HTMLCanvas2DContext)");}
+		//g.drawImage(AssetManager.getInstance().getImage("bonus"), this.x, this.y);
+    }
+	
 };
 
 
@@ -173,7 +229,7 @@ var Bonus = function(x,y,z,collisionGroups,collisionFilters, hitBox) {
 * @param offsetX
 * @param offsetY
 */
-var InfiniteBackground = function(x,y,z,collisionGroups,collisionFilters, hitBox, image, virtualDepth,offsetX, offsetY) {
+var InfiniteBackground = function(x,y,z,collisionGroups,collisionFilters, hitBox, image, virtualDepth, offsetX, offsetY) {
 	GameEntity.call(this, x,y,z,collisionGroups,collisionFilters, hitBox);
 	
     this.image = image;
@@ -202,6 +258,7 @@ var Animation = function(x,y,z,collisionGroups,collisionFilters, hitBox, image, 
 	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
+		this.numFrame += 1;
     }
 	
 };
@@ -215,11 +272,61 @@ var Animation = function(x,y,z,collisionGroups,collisionFilters, hitBox, image, 
 var Bullet = function(x,y,z,collisionGroups,collisionFilters, hitBox, angle) {
 	GameEntity.call(this, x,y,z,collisionGroups,collisionFilters, hitBox);
 	
-    this.angle = angle;
+	this.bulletId = 1;
 	
+	if(angle == undefined)
+	{
+		angle = 0
+	}
+	
+	this.speed = 10;
+	this.speedX =  Math.round(this.speed*Math.cos(angle));
+	this.speedY =  Math.round(this.speed*Math.sin(angle));
+	
+	
+	//TODO: Remove when AssetManager is implemented
+	if(typeof AssetManager == 'undefined'){
+		this.image= new Image();
+		switch(this.bulletId)
+		{
+			default:
+			case 1:
+				this.image.src = "./images/Bullet01.png";
+			break;
+			case 2:
+				this.image.src = "./images/Bullet02.png";
+			break;
+		}
+	}
+
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
+		this.x += this.speedX;
+		this.y += this.speedY;
     }
+	
+	this.render = function(g){
+		this.checkCoordinates("Function render undefined coordinates");
+        if(g == undefined){alert("Function render undefined parameter g (HTMLCanvas2DContext)");}
+		if(typeof AssetManager == 'undefined')
+		{
+			g.drawImage(this.image, this.x, this.y);
+		}
+		else
+		{
+			switch(this.bulletId)
+			{
+				default:
+				case 1:
+					g.drawImage(AssetManager.getInstance().getImage("bullet1"), this.x, this.y);
+				break;
+				case 2:
+					g.drawImage(AssetManager.getInstance().getImage("bullet2"), this.x, this.y);
+				break;
+			}
+		}
+    }
+	
 	
 };
 
