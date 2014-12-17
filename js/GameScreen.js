@@ -121,16 +121,14 @@ LevelScreen.prototype.initialize = function() {
 };
 
 LevelScreen.prototype.update = function () {
-    //console.log('LevelScreen update');
-    
+
     this.infiniteBackgrounds[0].update();
 	this.infiniteBackgrounds[1].update();
 	
 };
 
 LevelScreen.prototype.render = function () {
-    //console.log('LevelScreen render');
-    
+
     this.infiniteBackgrounds[0].render(this.graphics);
 	this.infiniteBackgrounds[1].render(this.graphics);
 };
