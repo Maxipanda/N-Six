@@ -158,3 +158,12 @@ GameOverScreen.prototype.render = function() {
 GameOverScreen.prototype.dispose = function() {
 	console.log('GameOverScreen dispose');
 };
+
+
+function initEnemies(nb, width, height) {
+	enemies = [];
+	for(i = 0; i < nb; i++) {
+		enemies[i] = new Enemy(Math.floor(Math.random() * width + 1), Math.floor(Math.random() * height + 1), 0);
+	}
+	//Enemy function(x,y,z)
+}

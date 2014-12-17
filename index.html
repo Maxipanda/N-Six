@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="fr">
 <!-- Video game developed by :
@@ -23,8 +23,16 @@
     <div id="content">
     </div>
     
-    <script src="js/GameEntity.js" type="text/javascript"></script>
-    <script src="js/GameScreen.js" type="text/javascript"></script>
+    <!--<script src="js/LevelScreen.js" type="text/javascript"></script>
     <script src="js/Game.js"></script>
+    <script src="js/GameScreen.js" type="text/javascript"></script>-->
+    <script src="js/Input.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var input = new Input.getInstance();
+        setTimeout(function() {
+            console.log(input.iskeyCode(input.left));
+        }, 1000);
+        
+    </script>
 </body>
 </html>
