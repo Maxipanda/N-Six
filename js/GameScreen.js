@@ -98,14 +98,14 @@ ChoiceScreen.prototype.dispose = function() {
 
 
 
-
+var bulletsPlayer;
 // Level Screen
 var LevelScreen = function() {
 
     this.infiniteBackgrounds;
     this.enemies;
     this.player;
-    this.bulletsPlayer;
+    //bulletsPlayer;
     this.bulletsEnemies;
 	this.assets;
 };
@@ -118,7 +118,7 @@ LevelScreen.prototype.initialize = function() {
 	
 	this.infiniteBackgrounds = [];
 	this.enemies = [];
-	this.bulletsPlayer = [];
+	bulletsPlayer = [];
 	this.bulletsEnemies= [];
 	
 	var bg1 = new InfiniteBackground(0,0,0,0,0,0, assetManager.getImage("img-bg1"), 4);
@@ -153,6 +153,10 @@ LevelScreen.prototype.update = function () {
     for (i = 0; i < this.enemies.length; i++) {
         this.enemies[i].update();
     }
+    for (i = 0; i < bulletsPlayer.length; i++) {
+        bulletsPlayer[i].update();
+    }
+}
 
 LevelScreen.prototype.dispose = function() {
     console.log('LevelScreen dispose');
@@ -161,9 +165,9 @@ LevelScreen.prototype.dispose = function() {
     // Test des colisions ! $
     // Pour tout les enemies
     for (i = 0; i < this.enemies.length; i++) {
-        for (j = 0; j < this.bulletsPlayer; j++) {
+        for (j = 0; j < bulletsPlayer; j++) {
             //on regarde si il se prend un boulette du joueur
-            if (this.bulletsPlayer[j].hitTest(this.enemies[i])) {
+            if (bulletsPlayer[j].hitTest(this.enemies[i])) {
                 console.log("KABOOOM");
             }
         }
@@ -175,8 +179,8 @@ LevelScreen.prototype.dispose = function() {
     }
     // Pour toute les boulettes des enemies
     for (i = 0; i < this.bulletsEnemies.length; i++) {
-        for (j = 0; j < this.bulletsPlayer.length; j++) {
-            if (this.bulletsPlayer[j].hitTest(this.bulletsEnemies[i])) {
+        for (j = 0; j < bulletsPlayer.length; j++) {
+            if (bulletsPlayer[j].hitTest(this.bulletsEnemies[i])) {
                 console.log("Bullets Collide !");
             }
         }
@@ -196,6 +200,11 @@ LevelScreen.prototype.render = function (graphics) {
     {
         this.enemies[i].render(graphics);
     }
+    for (i = 0; i < bulletsPlayer.length; i++)
+    {
+        bulletsPlayer[i].render(graphics);
+    }
+    
 };
 
 
