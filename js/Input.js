@@ -61,7 +61,7 @@ var Input = (function() {
             else console.log("La touche n'existe pas");
         
         };
-    }
+    };
 
 	var instance = null;
 	return new function() {
