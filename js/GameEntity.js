@@ -125,40 +125,60 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
 	GameEntity.call(this, x,y,z,collisionGroups,collisionFilters, hitBox); 
     this.weaponId = weaponId;
     this.speed = 4;
+    this.lastShoot = new Date();
+    this.shootRate = 10;
 	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
 		
 		/*Check pressed touched*/
+		var mvX, mvY;
+		
 		if(input.iskeyCode(input.down)){
 			this.y += this.speed;
-			console.log("yy");
+			mvY = this.speed;
 		}
 		if(input.iskeyCode(input.up)){
 			this.y -= this.speed;
+			mvY = -this.speed;
 		}
 		if(input.iskeyCode(input.left)){
 			this.x -= this.speed;
+			mvX = -this.speed;
 		}
 		if(input.iskeyCode(input.right)){
 			this.x += this.speed;
+			mvX = this.speed;
 		}
 		
+		this.hitBox.moveTo(this.x + mvX, this.y + mvY);
 		
 		if(this.x < 0) this.x = 0;
-		if(this.x > 432) this.x = 432;
+		if(this.x > 592) this.x = 592;
 		if(this.y < 0) this.y = 0;
-		if(this.y > 608) this.y = 608;
-    }
+		if(this.y > 448) this.y = 448;
+		
+		if(input.iskeyCode(input.shoot) && ((new Date())-this.lastShoot) >= 1000/this.shootRate){
+			
+			this.lastShoot = new Date();
+			this.shoot();	
+		}
+		
+    };
 	
 	this.render = function(g){
 		this.checkCoordinates("Function render undefined coordinates");
         if(g == undefined){alert("Function render undefined parameter g (HTMLCanvas2DContext)");}
 		g.drawImage(assetManager.getImage("img-spaceship1"), this.x, this.y);
-    }
 
+    };
+    
 	this.shoot = function(){
-    }
+    
+    	var bullet = new Bullet(this.x + 43, this.y+5, 0, 0, 0, new Rectangle(this.x + 48, this.y), 0);
+    	//LevelScreen.bulletsPlayer.push(bullet);
+    	bulletsPlayer.push(bullet);
+    };
 };
 
 /**
@@ -374,7 +394,7 @@ var Bullet = function(x,y,z,collisionGroups,collisionFilters, hitBox, angle,bull
 	
 	if(angle == undefined)
 	{
-		angle = 0
+		angle = 0;
 	}
 	
 	this.speed = 10;
@@ -384,6 +404,7 @@ var Bullet = function(x,y,z,collisionGroups,collisionFilters, hitBox, angle,bull
 
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
+		
 		switch(this.bulletId)
 		{
 			default:
@@ -396,6 +417,9 @@ var Bullet = function(x,y,z,collisionGroups,collisionFilters, hitBox, angle,bull
 				this.y -= this.speedY;
 			break;
 		}
+		
+		//MOVE THE HITBOX
+		this.hitBox.moveTo(this.x, this.y);
 	};
 	
 	this.render = function(g){
