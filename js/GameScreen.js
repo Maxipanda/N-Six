@@ -209,7 +209,7 @@ LevelScreen.prototype.update = function () {
 
     toRemove = [];
     for (i = 0; i < this.bulletsEnemies.length; i++) {
-        if (this.bulletsEnemies[i].x < -50 || this.bulletsEnemies[i].y > 500 || this.bulletsEnemies[i].x > 700) {
+        if (this.bulletsEnemies[i].x < -50 || this.bulletsEnemies[i].y > 500 || this.bulletsEnemies[i].x < -50) {
             toRemove.push(bulletsEnemies[i]);
         }
     }
