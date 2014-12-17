@@ -127,6 +127,7 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
     this.speed = 4;
     this.lastShoot = new Date();
     this.shootRate = 10;
+    this.life = 3;
 	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
@@ -165,6 +166,17 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
 		}
 		
     };
+    
+    this.removeLife = function() {
+        if(((new Date())-this.lastLife) >= 3000) {
+            this.life--;
+            this.lastLife = new Date();
+            if(this.life < 0) {
+                sm = new ScoreManager.getInstance();
+                sm.sendScore();
+            }
+        }
+    }
 	
 	this.render = function(g){
 		this.checkCoordinates("Function render undefined coordinates");
@@ -405,7 +417,7 @@ var Bullet = function(x,y,z,collisionGroups,collisionFilters, hitBox, angle,bull
 
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
-		
+		console.log("blabla");
 		switch(this.bulletId)
 		{
 			default:
