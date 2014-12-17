@@ -142,7 +142,7 @@ LevelScreen.prototype.initialize = function() {
 	var rect2 = new Rectangle(11, 11, 20, 20);
 	var player = new Player(0, 0, 0, colGroups, colFilter, rect1, 1);
 	this.player = player;
-	initEnemies(50, 5000, 480, this.enemies);
+	initEnemies(500, 1000, 500, this.enemies);
 
 };
 
@@ -179,7 +179,7 @@ LevelScreen.prototype.update = function () {
         //On regarde si il collide avec le joueur
         if (this.player.hitTest(this.enemies[i])) {
 			enemiesToDelete.push(i);
-            // On perd une vie;
+            this.player.removeLife();
         }
     }
 	
@@ -202,6 +202,7 @@ LevelScreen.prototype.update = function () {
             }
         }
         if (this.player.hitTest(this.bulletsEnemies[i])) {
+            this.player.removeLife();
         }
     }
     

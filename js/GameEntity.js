@@ -127,7 +127,8 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
     this.speed = 4;
     this.lastShoot = new Date();
     this.shootRate = 10;
-    this.life = 3;
+    this.life = 2;
+    this.lastLife = new Date();
 	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
@@ -168,7 +169,9 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
         if(((new Date())-this.lastLife) >= 3000) {
             this.life--;
             this.lastLife = new Date();
-            if(this.life < 0) {
+            console.log("plop");
+            if(this.life < 1) {
+            console.log("plop2");
                 sm = new ScoreManager.getInstance();
                 sm.sendScore();
             }
@@ -188,6 +191,8 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
 		
     	//LevelScreen.bulletsPlayer.push(bullet);
     	bulletsPlayer.push(bullet);
+        am = new AssetManager.getInstance();
+        am.playFX("sound-explosion");
     };
 };
 

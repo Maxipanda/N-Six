@@ -49,6 +49,10 @@ function Game() {
         LevelScreen.prototype.initialize();
         this.setScreen(LevelScreen);
         this.graphics = gameCanvas.getContext("2d");
+        
+        var am = new AssetManager.getInstance();
+        am.playBGM("sound-level1");
+        
         console.log("End of initialisation...")
     };
 }

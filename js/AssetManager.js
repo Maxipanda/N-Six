@@ -83,16 +83,17 @@ var AssetManager = (function() {
 			}
 		};
 		this.playBGM = function(id) {
-			if(loaded) {
+			//if(loaded) {
 				if(bgm) {
-					
+					bgm.pause;
 				}
 				bgm = audios[id];
-				
-			}
+				bgm.play();
+			//}
 		};
 		this.playFX = function(id) {
-			
+			fx = audios[id];
+            fx.play();
 		};
 		this.init = function(callback) {
 			if(!loaded) {
