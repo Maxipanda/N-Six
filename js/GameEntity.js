@@ -172,8 +172,8 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
             console.log("plop");
             if(this.life < 1) {
             console.log("plop2");
-                sm = new ScoreManager.getInstance();
-                sm.sendScore();
+                //sm = new ScoreManager.getInstance();
+                //sm.sendScore();
             }
         }
     }
