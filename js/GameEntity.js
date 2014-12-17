@@ -120,19 +120,41 @@ function GameEntity(x,y,z,collisionGroups,collisionFilters, hitBox){
 *
 * @param weaponId
 */
+
 var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) {
 	GameEntity.call(this, x,y,z,collisionGroups,collisionFilters, hitBox); 
     this.weaponId = weaponId;
+    this.speed = 4;
 	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
+		
 		/*Check pressed touched*/
+		if(input.iskeyCode(input.down)){
+			this.y += this.speed;
+			console.log("yy");
+		}
+		if(input.iskeyCode(input.up)){
+			this.y -= this.speed;
+		}
+		if(input.iskeyCode(input.left)){
+			this.x -= this.speed;
+		}
+		if(input.iskeyCode(input.right)){
+			this.x += this.speed;
+		}
+		
+		
+		if(this.x < 0) this.x = 0;
+		if(this.x > 432) this.x = 432;
+		if(this.y < 0) this.y = 0;
+		if(this.y > 608) this.y = 608;
     }
 	
 	this.render = function(g){
 		this.checkCoordinates("Function render undefined coordinates");
         if(g == undefined){alert("Function render undefined parameter g (HTMLCanvas2DContext)");}
-        g.drawImage(assetManager.getImage("img-spaceship1"), this.x, this.y);
+		g.drawImage(assetManager.getImage("img-spaceship1"), this.x, this.y);
     }
 
 	this.shoot = function(){
@@ -374,7 +396,6 @@ var Bullet = function(x,y,z,collisionGroups,collisionFilters, hitBox, angle,bull
 				this.y -= this.speedY;
 			break;
 		}
-    }
 	
 	this.render = function(g){
 		this.checkCoordinates("Function render undefined coordinates");
@@ -389,7 +410,7 @@ var Bullet = function(x,y,z,collisionGroups,collisionFilters, hitBox, angle,bull
 				g.drawImage(assetManager.getImage("img-bullet2"), this.x, this.y);
 			break;
 		}
-    }
+    };
 	
 	
 };
