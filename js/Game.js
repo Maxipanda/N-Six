@@ -19,6 +19,7 @@ function Game() {
     this.width = 640;
     this.height = 480;
     this.currentScreen = null;
+    this.graphics;
 
 
     this.setScreen = function (gameScreen) {
@@ -30,7 +31,7 @@ function Game() {
     };
 
     this.render = function render() {
-        this.currentScreen.prototype.render();
+        this.currentScreen.prototype.render(this.graphics);
     }
 
     this.start = function start() {
@@ -41,6 +42,7 @@ function Game() {
         document.getElementById("content").appendChild(gameCanvas);
         LevelScreen.prototype.initialize();
         this.setScreen(LevelScreen);
+        this.graphics = gameCanvas.getContext("2d");
         console.log("End of initialisation...")
     }
 }

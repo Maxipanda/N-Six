@@ -173,15 +173,13 @@ var Bonus = function(x,y,z,collisionGroups,collisionFilters, hitBox) {
 * @param offsetX
 * @param offsetY
 */
-var InfiniteBackground = function(x,y,z,collisionGroups,collisionFilters, hitBox, image, canvasWidth, canvasHeight, speed) {
+var InfiniteBackground = function(x,y,z,collisionGroups,collisionFilters, hitBox, image, speed) {
 	GameEntity.call(this, x,y,z,collisionGroups,collisionFilters, hitBox);
 	
     this.image = image;
 	this.position = 0;
 	this.speed = speed;
 	
-	this.CANVAS_WIDTH = canvasWidth;
-	this.CANVAS_HEIGHT = canvasHeight;
 	this.BG_WIDTH;
 	this.BG_HEIGHT;
 	
@@ -209,7 +207,7 @@ var InfiniteBackground = function(x,y,z,collisionGroups,collisionFilters, hitBox
 		graphics.drawImage(this.image, this.position,0, this.BG_WIDTH - this.position, this.BG_HEIGHT, 0, this.BG_HEIGHT, this.BG_WIDTH - this.position, this.BG_HEIGHT);
 		graphics.drawImage(this.image, 0, 0, this.BG_WIDTH, this.BG_HEIGHT, this.BG_WIDTH - this.position, this.BG_HEIGHT, this.BG_WIDTH, this.BG_HEIGHT);
 		
-		if(this.position > 2*(this.BG_WIDTH)-(this.CANVAS_WIDTH)){
+		if(this.position > 2*(this.BG_WIDTH)-(graphics.canvas.width)){
 		
 			graphics.drawImage(this.image, 0, 0, this.BG_WIDTH, this.BG_HEIGHT, (2*(this.BG_WIDTH) - this.position), 0, this.BG_WIDTH, this.BG_HEIGHT);
 			graphics.drawImage(this.image, 0,	0, this.BG_WIDTH, this.BG_HEIGHT, (2*(this.BG_WIDTH) - this.position), this.BG_HEIGHT, this.BG_WIDTH, this.BG_HEIGHT);
