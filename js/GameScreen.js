@@ -125,8 +125,8 @@ LevelScreen.prototype.initialize = function() {
 	var rect2 = new Rectangle(11, 11, 20, 20);
 	var player = new Player(0, 0, 0, colGroups, colFilter, rect1, 1);
 	this.player = player;
-	var enemy = new Enemy(568, 200, 0, colGroups, colFilter, rect2);
-	this.enemies.push(enemy);
+	
+	initEnemies(50, 10000, 480, this.enemies);
 
 };
 
@@ -154,14 +154,21 @@ LevelScreen.prototype.render = function (graphics) {
 LevelScreen.prototype.dispose = function() {
     console.log('LevelScreen dispose');
     // Test des colisions ! $
-    // Pour tout les enemies, on regarde si il se prend un boulette du joueur
+    // Pour tout les enemies
     for (i = 0; i < this.enemies.length; i++) {
         for (j = 0; j < this.bulletsPlayer; j++) {
+            //on regarde si il se prend un boulette du joueur
             if(this.bulletsPlayer[j].hitTest(this.enemies[i])){
                 console.log("KABOOOM");
             }
         }
+        //On regarde si il collide avec le joueur
+        if (this.player.hitTest(this.enemies[i])) {
+            // On perd une vie;
+        }
     }
+    // Pour toute les boulettes des enemies
+
 
 };
 
@@ -193,10 +200,10 @@ GameOverScreen.prototype.dispose = function() {
 };
 
 
-function initEnemies(nb, width, height) {
-	enemies = [];
+function initEnemies(nb, width, height,list) {
+	
 	for(i = 0; i < nb; i++) {
-		enemies[i] = new Enemy(Math.floor(Math.random() * width + 1), Math.floor(Math.random() * height + 1), 0);
+	    enemy = new Enemy(Math.floor(Math.random() * width + 1), Math.floor(Math.random() * height + 1), 0);
+	    list.push(enemy);
 	}
-	//Enemy function(x,y,z)
 }
