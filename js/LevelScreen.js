@@ -1,4 +1,4 @@
-function LevelScreen(){
+function LevelScreen2(){
 	
 	this.imageBg = new Image();
 	this.imageBg.src = "images/Background01.png";
@@ -41,8 +41,8 @@ function LevelScreen(){
 	};
 	
 };
-
-/*function testLevelScreen(){
+/*
+function testLevelScreen(){
 	
 
 	var level = new LevelScreen();
