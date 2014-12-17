@@ -132,26 +132,21 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
 		this.checkCoordinates("Function update, undefined coordinates");
 		
 		/*Check pressed touched*/
-		var mvX, mvY;
 		
 		if(input.iskeyCode(input.down)){
 			this.y += this.speed;
-			mvY = this.speed;
 		}
 		if(input.iskeyCode(input.up)){
 			this.y -= this.speed;
-			mvY = -this.speed;
 		}
 		if(input.iskeyCode(input.left)){
 			this.x -= this.speed;
-			mvX = -this.speed;
 		}
 		if(input.iskeyCode(input.right)){
 			this.x += this.speed;
-			mvX = this.speed;
 		}
 		
-		this.hitBox.moveTo(this.x + mvX, this.y + mvY);
+		this.hitBox.moveTo(this.x, this.y);
 		
 		if(this.x < 0) this.x = 0;
 		if(this.x > 592) this.x = 592;
@@ -201,24 +196,30 @@ var Enemy = function(x,y,z,hitBox) {
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
 		
-		if((this.destX != this.x) || (this.destY != this.y)){
-			this.moveTo(this.destX,this.destY);
+		if(this.x > 640){
+			this.x -= speedX;
 		}
 		else{
-			this.destX = this.x - 100 + Math.floor((Math.random() * 100)+1);
-			this.destX -= this.destX % this.speedX;
-			this.destY = this.y - this.destX + Math.floor((Math.random() * this.destX*2)+1);
-			this.destY -= this.destY % this.speedY;
-			if(this.destX < -100)
-				this.destX =-100;
-			if(this.destY < 0)
-				this.destY = 0;
-			if(this.destY > 432)
-				this.destY =432;
-			
-			this.moveTo(this.destX,this.destY);
+			if((this.destX != this.x) || (this.destY != this.y)){
+				this.moveTo(this.destX,this.destY);
+			}
+			else{
+				this.destX = this.x - 100 + Math.floor((Math.random() * 100)+1);
+				this.destX -= this.destX % this.speedX;
+				this.destY = this.y - this.destX + Math.floor((Math.random() * this.destX*2)+1);
+				this.destY -= this.destY % this.speedY;
+				if(this.destX < -100)
+					this.destX =-100;
+				if(this.destY < 0)
+					this.destY = 0;
+				if(this.destY > 432)
+					this.destY =432;
+				
+				this.moveTo(this.destX,this.destY);
+			}
 		}
-		this.hitBox.moveTo(this.x, this.y);
+		
+		//this.hitBox.moveTo(this.x, this.y);
     }
 	
 	this.moveTo = function(x,y)	{

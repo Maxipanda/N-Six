@@ -140,8 +140,7 @@ LevelScreen.prototype.initialize = function() {
 	var rect2 = new Rectangle(11, 11, 20, 20);
 	var player = new Player(0, 0, 0, colGroups, colFilter, rect1, 1);
 	this.player = player;
-	var enemy = new Enemy(568, 200, 0, colGroups, colFilter, rect2);
-	this.enemies.push(enemy);
+	initEnemies(50, 5000, 480, this.enemies);
 
 };
 
@@ -156,11 +155,7 @@ LevelScreen.prototype.update = function () {
     for (i = 0; i < bulletsPlayer.length; i++) {
         bulletsPlayer[i].update();
     }
-}
-
-LevelScreen.prototype.dispose = function() {
-    console.log('LevelScreen dispose');
-
+    
     ///////////////////////////TEST COLLISIONS/////////////////////////
     // Test des colisions ! $
     // Pour tout les enemies
@@ -168,8 +163,8 @@ LevelScreen.prototype.dispose = function() {
         for (j = 0; j < bulletsPlayer; j++) {
             //on regarde si il se prend un boulette du joueur
 
-            if (this.bulletsPlayer[j].hitTest(this.enemies[i])) {
-               // console.log("KABOOOM");
+            if (bulletsPlayer[j].hitTest(this.enemies[i])) {
+                //console.log("KABOOOM");
             }
         }
         //On regarde si il collide avec le joueur
@@ -181,8 +176,8 @@ LevelScreen.prototype.dispose = function() {
     // Pour toute les boulettes des enemies
     for (i = 0; i < this.bulletsEnemies.length; i++) {
 
-        for (j = 0; j < this.bulletsPlayer.length; j++) {
-            if (this.bulletsPlayer[j].hitTest(this.bulletsEnemies[i])) {
+        for (j = 0; j < bulletsPlayer.length; j++) {
+            if (bulletsPlayer[j].hitTest(this.bulletsEnemies[i])) {
                // console.log("Bullets Collide !");
 
             }
@@ -201,8 +196,8 @@ LevelScreen.prototype.dispose = function() {
         }
     }
 
-    for (i = 0; i < this.bulletsPlayer.length; i++) {
-        if (this.bulletsPlayer[i].y < -50 || this.bulletsPlayer[i].y > 500 || this.bulletsPlayer[i].x > 700) {
+    for (i = 0; i < bulletsPlayer.length; i++) {
+        if (bulletsPlayer[i].y < -50 || bulletsPlayer[i].y > 500 || bulletsPlayer[i].x > 700) {
 
         }
     }
@@ -213,7 +208,12 @@ LevelScreen.prototype.dispose = function() {
         }
     }
 
-};
+}
+
+LevelScreen.prototype.dispose = function() {
+    console.log('LevelScreen dispose');
+
+    };
 
 LevelScreen.prototype.render = function (graphics) {
 
