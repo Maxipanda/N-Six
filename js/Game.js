@@ -1,4 +1,4 @@
-
+﻿
 /* 
 ///////////////////////// AIDE \\\\\\\\\\\\\\\\\\\\\\\\\\\
 Pour creer un objet et l'instancier en Javascript avec attributs et méthodes :

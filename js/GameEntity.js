@@ -149,24 +149,57 @@ var Enemy = function(x,y,z,collisionGroups,collisionFilters, hitBox) {
 
 	GameEntity.call(this, x,y,z,collisionGroups,collisionFilters, hitBox);
 	
+	this.speedX = 2;
+	this.speedY = 4;
+	
+	this.destX = x;
+	this.destY = y;
+	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
 		
-		this.x += -2;
-		
-		if(this.y > 0 && this.y <= 368 )
-		{
-			this.y += Math.floor((Math.random() * 5) - 2);
-			if(this.y <0)
-				this.y = 0;
+		if((this.destX != this.x) || (this.destY != this.y)){
+			this.moveTo(this.destX,this.destY);
+		}
+		else{
+			this.destX = this.x - 100 + Math.floor((Math.random() * 100)+1);
+			this.destX -= this.destX % 2;
+			this.destY = this.y - this.destX + Math.floor((Math.random() * this.destX*2)+1);
+			this.destY -= this.destY % 4;
+			if(this.destX < 0)
+				this.destX =0;
+			if(this.destY < 0)
+				this.destY =0;
+			if(this.destY > 368)
+				this.destY =368;
+			
+			this.moveTo(this.destX,this.destY);
 		}
 		
     }
 	
+	this.moveTo = function(x,y)	{
+		if(x < this.x)
+			this.x -= this.speedX;
+		else if(x > this.x)
+			this.x += this.speedX;
+		
+		if(y > this.y)
+			this.y += this.speedY;
+		else if (y < this.y)
+			this.y -= this.speedY;
+	}
+	
+	//TODO: Remove when AssetManager is implemented
+	if(typeof AssetManager == 'undefined'){
+		this.image= new Image();
+		this.image.src = "./images/Enemy01.png";
+	}
+	
 	this.render = function(g){
 		this.checkCoordinates("Function render undefined coordinates");
         if(g == undefined){alert("Function render undefined parameter g (HTMLCanvas2DContext)");}
-		g.drawImage(assetManager.getImage("img-enemy"), this.x, this.y);
+		g.drawImage(assetManager.getImage("img-enemy1"), this.x, this.y);
     }
 	
 	this.shoot = function(){
@@ -256,12 +289,56 @@ var InfiniteBackground = function(x,y,z,collisionGroups,collisionFilters, hitBox
 var Animation = function(x,y,z,collisionGroups,collisionFilters, hitBox, image, numFrame) {
 	GameEntity.call(this, x,y,z,collisionGroups,collisionFilters, hitBox);
 	
-    this.image = image;
     this.numFrame = numFrame;
+    this.currFrame = 0;
+    this.speedFrame = 10;
+    this.tempo = 1;
 	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
-		this.numFrame += 1;
+		this.tempo += 1;
+		
+		if(this.tempo % this.speedFrame == 0)
+		{
+			this.tempo =0;
+			this.currFrame += 1;
+		}
+		
+		
+		
+		if(this.currFrame >= numFrame)
+			this.currFrame = 0;
+    }
+	
+	//TODO: Remove when AssetManager is implemented
+	if(typeof AssetManager == 'undefined'){
+		this.image= new Image();
+		this.image.src = "./images/Explosion01.png";/*
+		this.width = image.width();
+		this.height = image.height();*/
+		this.width = 320.0;
+		this.height = 64.0;
+	}
+	else
+	{
+		this.image = image;
+		this.width = image.width;
+		this.height = image.height;
+	}
+	
+	this.render = function(g){
+		this.checkCoordinates("Function render undefined coordinates");
+        if(g == undefined){alert("Function render undefined parameter g (HTMLCanvas2DContext)");}
+
+		g.drawImage(this.image,
+	   this.currFrame * this.width / this.numFrame,
+	   0,
+	   this.width / this.numFrame,
+	   this.height,
+	   this.x,
+	   this.y,
+	   this.width / this.numFrame,
+	   this.height);
     }
 	
 };
@@ -270,7 +347,7 @@ var Animation = function(x,y,z,collisionGroups,collisionFilters, hitBox, image, 
 /**
 * @class Bullet
 *
-* @param angle Angle of the shoot in ?????????
+* @param angle Angle of the shoot in radian
 */
 var Bullet = function(x,y,z,collisionGroups,collisionFilters, hitBox, angle) {
 	GameEntity.call(this, x,y,z,collisionGroups,collisionFilters, hitBox);
