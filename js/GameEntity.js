@@ -173,8 +173,8 @@ var Enemy = function(x,y,z,collisionGroups,collisionFilters, hitBox) {
 	this.speedX = 2;
 	this.speedY = 4;
 	
-	this.destX = x;
-	this.destY = y;
+	this.destX = x - (x % this.speedX);
+	this.destY = y - (x % this.speedY);
 	
 	this.lastShoot = new Date();
 	
@@ -186,37 +186,35 @@ var Enemy = function(x,y,z,collisionGroups,collisionFilters, hitBox) {
 		}
 		else{
 			this.destX = this.x - 100 + Math.floor((Math.random() * 100)+1);
-			this.destX -= this.destX % 2;
+			this.destX -= this.destX % this.speedX;
 			this.destY = this.y - this.destX + Math.floor((Math.random() * this.destX*2)+1);
-			this.destY -= this.destY % 4;
+			this.destY -= this.destY % this.speedY;
 			if(this.destX < -100)
 				this.destX =-100;
 			if(this.destY < 0)
-				this.destY =0;
-			if(this.destY > 368)
-				this.destY =368;
+				this.destY = 0;
+			if(this.destY > 432)
+				this.destY =432;
 			
 			this.moveTo(this.destX,this.destY);
-		}
-		
+		}		
     }
 	
 	this.moveTo = function(x,y)	{
-		if(x < this.x)
+	
+		if(Math.abs(x - this.x) <= this.speedX)
+			this.x = x;
+		else if(x < this.x)
 			this.x -= this.speedX;
 		else if(x > this.x)
 			this.x += this.speedX;
 		
-		if(y > this.y)
+		if(Math.abs(y - this.y) <= this.speedY)
+			this.y = y;
+		else if(y > this.y)
 			this.y += this.speedY;
 		else if (y < this.y)
 			this.y -= this.speedY;
-	}
-	
-	//TODO: Remove when AssetManager is implemented
-	if(typeof AssetManager == 'undefined'){
-		this.image= new Image();
-		this.image.src = "./images/Enemy01.png";
 	}
 	
 	this.render = function(g){
@@ -224,6 +222,7 @@ var Enemy = function(x,y,z,collisionGroups,collisionFilters, hitBox) {
         if(g == undefined){alert("Function render undefined parameter g (HTMLCanvas2DContext)");}
 		g.drawImage(assetManager.getImage("img-enemy1"), this.x, this.y);
     }
+	
 	
 	this.shoot = function(){
 		if(this.lastShoot.getTime() <= new Date().getTime() + 1000/60){
@@ -396,6 +395,7 @@ var Bullet = function(x,y,z,collisionGroups,collisionFilters, hitBox, angle,bull
 				this.y -= this.speedY;
 			break;
 		}
+	};
 	
 	this.render = function(g){
 		this.checkCoordinates("Function render undefined coordinates");
