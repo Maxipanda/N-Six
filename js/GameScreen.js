@@ -193,20 +193,28 @@ LevelScreen.prototype.update = function () {
     ////////////////////////TEST FIN DE VIE DES BOULETTES ET ENEMIS /////////
     for (i = 0; i < this.enemies.length; i++) {
         if (this.enemies[i].x < -50) {
-
+            
         }
     }
-
+    
+    toRemove = [];
     for (i = 0; i < bulletsPlayer.length; i++) {
         if (bulletsPlayer[i].y < -50 || bulletsPlayer[i].y > 500 || bulletsPlayer[i].x > 700) {
-
+            toRemove.push(bulletsPlayer[i]);
         }
     }
+    for (j = 0; j < toRemove.length; j++) {
+        bulletsPlayer.splice(bulletsPlayer.indexOf(toRemove[j]), 1);
+    }
 
+    toRemove = [];
     for (i = 0; i < this.bulletsEnemies.length; i++) {
         if (this.bulletsEnemies[i].x < -50 || this.bulletsEnemies[i].y > 500 || this.bulletsEnemies[i].x > 700) {
-
+            toRemove.push(bulletsEnemies[i]);
         }
+    }
+    for (j = 0; j < toRemove.length; j++) {
+        bulletsEnemies.splice(bulletsEnemies.indexOf(toRemove[j]), 1);
     }
 
 }
