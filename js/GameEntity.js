@@ -255,35 +255,39 @@ var Enemy = function(x,y,z,hitBox) {
 	this.destX = x - (x % this.speedX);
 	this.destY = y - (x % this.speedY);
 	
+	
 	this.lastShoot = new Date();
 	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
 		
-		if(this.x > 640){
-			this.x -= this.speedX;
+	
+		if((this.destX != this.x) || (this.destY != this.y)){
+			this.moveTo(this.destX,this.destY);
 		}
 		else{
-			if((this.destX != this.x) || (this.destY != this.y)){
-				this.moveTo(this.destX,this.destY);
-			}
-			else{
-				this.destX = this.x - 100 + Math.floor((Math.random() * 100)+1);
-				this.destX -= this.destX % this.speedX;
-				this.destY = this.y - this.destX + Math.floor((Math.random() * this.destX*2)+1);
-				this.destY -= this.destY % this.speedY;
-				if(this.destX < -100)
-					this.destX =-100;
-				if(this.destY < 0)
-					this.destY = 0;
-				if(this.destY > 432)
-					this.destY =432;
-				
-				this.moveTo(this.destX,this.destY);
-			}
+			this.destX = this.x - 100 + Math.floor((Math.random() * 100)+1);
+			this.destX -= this.destX % this.speedX;
+			this.destY = this.y - this.destX + Math.floor((Math.random() * this.destX*2)+1);
+			this.destY -= this.destY % this.speedY;
+			if(this.destX < -100)
+				this.destX =-100;
+			if(this.destY < 0)
+				this.destY = 0;
+			if(this.destY > 432)
+				this.destY =432;
+			
+			this.moveTo(this.destX,this.destY);
 		}
-		
+	
+	
 		this.hitBox.moveTo(this.x, this.y);
+			
+		if(((new Date()) - this.lastShoot) > 2000 && this.x < 640 && this.x > 0){
+			
+			this.shoot();
+			this.lastShoot = new Date();	
+		}
     }
 	
 	this.moveTo = function(x,y)	{
@@ -311,10 +315,11 @@ var Enemy = function(x,y,z,hitBox) {
 	
 	
 	this.shoot = function(){
-		if(this.lastShoot.getTime() <= new Date().getTime() + 1000/60){
-			//return new Bullet(this.x,this.y,this.z,0,0,new Rectangle(this.x,this.y,this.x+16,this.y+16),0,2)
-		}
-    }
+    
+    	var bullet = new Bullet(this.x - 16, this.y+8, 0, 0, 0, new Rectangle(this.x - 16, this.y+8, this.x, this.y + 24), 0, 2);
+    	//LevelScreen.bulletsPlayer.push(bullet);
+    	bulletsEnemies.push(bullet);
+    };
 };
 
 

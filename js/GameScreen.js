@@ -99,6 +99,7 @@ ChoiceScreen.prototype.dispose = function() {
 
 
 var bulletsPlayer;
+var bulletsEnemies;
 // Level Screen
 var LevelScreen = function() {
 
@@ -106,7 +107,7 @@ var LevelScreen = function() {
     this.enemies;
     this.player;
     //bulletsPlayer;
-    this.bulletsEnemies;
+    //bulletsEnemies;
 	this.assets;
 	this.animations;
 };
@@ -120,7 +121,7 @@ LevelScreen.prototype.initialize = function() {
 	this.infiniteBackgrounds = [];
 	this.enemies = [];
 	bulletsPlayer = [];
-	this.bulletsEnemies= [];
+	bulletsEnemies= [];
 	this.animations= [];
 	
 	var bg1 = new InfiniteBackground(0,0,0,0,0,0, assetManager.getImage("img-bg1"), 4);
@@ -142,7 +143,7 @@ LevelScreen.prototype.initialize = function() {
 	var rect2 = new Rectangle(11, 11, 20, 20);
 	var player = new Player(0, 0, 0, colGroups, colFilter, rect1, 1);
 	this.player = player;
-	initEnemies(500, 1000, 500, this.enemies);
+	initEnemies(500, 20000, 500, this.enemies);
 
 };
 
@@ -156,6 +157,9 @@ LevelScreen.prototype.update = function () {
     }
     for (i = 0; i < bulletsPlayer.length; i++) {
         bulletsPlayer[i].update();
+    }
+    for (i = 0; i < bulletsEnemies.length; i++) {
+        bulletsEnemies[i].update();
     }
     
     ///////////////////////////TEST COLLISIONS/////////////////////////
@@ -196,15 +200,15 @@ LevelScreen.prototype.update = function () {
 	}
 	
     // Pour toute les boulettes des enemies
-    for (i = 0; i < this.bulletsEnemies.length; i++) {
+    for (i = 0; i < bulletsEnemies.length; i++) {
 
         for (j = 0; j < bulletsPlayer.length; j++) {
-            if (bulletsPlayer[j].hitTest(this.bulletsEnemies[i])) {
+            if (bulletsPlayer[j].hitTest(bulletsEnemies[i])) {
 				bulletsEnemiesToDelete.push(i);
 
             }
         }
-        if (this.player.hitTest(this.bulletsEnemies[i])) {
+        if (this.player.hitTest(bulletsEnemies[i])) {
             this.player.removeLife();
         }
     }
@@ -229,8 +233,8 @@ LevelScreen.prototype.update = function () {
     }
 
     toRemove = [];
-    for (i = 0; i < this.bulletsEnemies.length; i++) {
-        if (this.bulletsEnemies[i].x < -50 || this.bulletsEnemies[i].y > 500 || this.bulletsEnemies[i].x < -50) {
+    for (i = 0; i < bulletsEnemies.length; i++) {
+        if (bulletsEnemies[i].x < -50 || bulletsEnemies[i].y > 500 || bulletsEnemies[i].x < -50) {
             toRemove.push(bulletsEnemies[i]);
         }
     }
@@ -274,6 +278,10 @@ LevelScreen.prototype.render = function (graphics) {
     for (i = 0; i < bulletsPlayer.length; i++)
     {
         bulletsPlayer[i].render(graphics);
+    }
+    for (i = 0; i < bulletsEnemies.length; i++)
+    {
+        bulletsEnemies[i].render(graphics);
     }
     
 };
