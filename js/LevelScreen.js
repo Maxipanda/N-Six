@@ -41,8 +41,8 @@ function LevelScreen(){
 	};
 	
 };
-
-/*function testLevelScreen(){
+/*
+function testLevelScreen(){
 	
 
 	var level = new LevelScreen();
