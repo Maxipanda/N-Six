@@ -1,4 +1,6 @@
-var Input = (function() {
+
+  
+  var Input = (function() {
     var constructeur = function() {
         this.down = 40;     // KEY_DOWN;
         this.up = 38;       // KEY_UP;
@@ -83,3 +85,4 @@ var Input = (function() {
 		};
 	}
 })();
+
