@@ -134,7 +134,7 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
         if(g == undefined){alert("Function render undefined parameter g (HTMLCanvas2DContext)");}
         g.drawImage(assetManager.getImage("img-spaceship1"), this.x, this.y);
     }
-	
+
 	this.shoot = function(){
     }
 };
@@ -167,8 +167,8 @@ var Enemy = function(x,y,z,collisionGroups,collisionFilters, hitBox) {
 			this.destX -= this.destX % 2;
 			this.destY = this.y - this.destX + Math.floor((Math.random() * this.destX*2)+1);
 			this.destY -= this.destY % 4;
-			if(this.destX < 0)
-				this.destX =0;
+			if(this.destX < -100)
+				this.destX =-100;
 			if(this.destY < 0)
 				this.destY =0;
 			if(this.destY > 368)
@@ -205,7 +205,7 @@ var Enemy = function(x,y,z,collisionGroups,collisionFilters, hitBox) {
 	
 	this.shoot = function(){
 		if(this.lastShoot.getTime() <= new Date().getTime() + 1000/60){
-			//var bullet = new Bullet(this.x,this.y,this.z,0,0,0,0)
+			//return new Bullet(this.x,this.y,this.z,0,0,new Rectangle(this.x,this.y,this.x+16,this.y+16),0,2)
 		}
     }
 };
@@ -313,27 +313,19 @@ var Animation = function(x,y,z,collisionGroups,collisionFilters, hitBox, image, 
 		if(this.currFrame >= numFrame)
 			this.currFrame = 0;
     }
-	
-	//TODO: Remove when AssetManager is implemented
-	if(typeof AssetManager == 'undefined'){
-		this.image= new Image();
-		this.image.src = "./images/Explosion01.png";/*
-		this.width = image.width();
-		this.height = image.height();*/
-		this.width = 320.0;
-		this.height = 64.0;
-	}
-	else
-	{
-		this.image = image;
-		this.width = image.width;
-		this.height = image.height;
-	}
+
+	this.image = image;
+	this.width = this.image.width;
+	this.height = this.image.height;
 	
 	this.render = function(g){
 		this.checkCoordinates("Function render undefined coordinates");
         if(g == undefined){alert("Function render undefined parameter g (HTMLCanvas2DContext)");}
-
+		if(this.width == 0)
+		{
+			this.width = this.image.width;
+			this.height = this.image.height;
+		}
 		g.drawImage(this.image,
 	   this.currFrame * this.width / this.numFrame,
 	   0,
@@ -353,10 +345,10 @@ var Animation = function(x,y,z,collisionGroups,collisionFilters, hitBox, image, 
 *
 * @param angle Angle of the shoot in radian
 */
-var Bullet = function(x,y,z,collisionGroups,collisionFilters, hitBox, angle) {
+var Bullet = function(x,y,z,collisionGroups,collisionFilters, hitBox, angle,bulletId) {
 	GameEntity.call(this, x,y,z,collisionGroups,collisionFilters, hitBox);
 	
-	this.bulletId = 1;
+	this.bulletId = bulletId;
 	
 	if(angle == undefined)
 	{
@@ -370,8 +362,18 @@ var Bullet = function(x,y,z,collisionGroups,collisionFilters, hitBox, angle) {
 
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
-		this.x += this.speedX;
-		this.y += this.speedY;
+		switch(this.bulletId)
+		{
+			default:
+			case 1:
+				this.x += this.speedX;
+				this.y += this.speedY;
+			break;
+			case 2:
+				this.x -= this.speedX;
+				this.y -= this.speedY;
+			break;
+		}
     }
 	
 	this.render = function(g){
