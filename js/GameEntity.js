@@ -146,7 +146,6 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
 			this.x += this.speed;
 		}
 		
-		
 		if(this.x < 0) this.x = 0;
 		if(this.x > 592) this.x = 592;
 		if(this.y < 0) this.y = 0;
@@ -174,6 +173,7 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
 	this.shoot = function(){
     
     	var bullet = new Bullet(this.x + 43, this.y+5, 0, 0, 0, new Rectangle(this.x + 43, this.y+5,this.x + 67, this.y+17), 0);
+		
     	//LevelScreen.bulletsPlayer.push(bullet);
     	bulletsPlayer.push(bullet);
     };
@@ -199,22 +199,27 @@ var Enemy = function(x,y,z,hitBox) {
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
 		
-		if((this.destX != this.x) || (this.destY != this.y)){
-			this.moveTo(this.destX,this.destY);
+		if(this.x > 640){
+			this.x -= this.speedX;
 		}
 		else{
-			this.destX = this.x - 100 + Math.floor((Math.random() * 100)+1);
-			this.destX -= this.destX % this.speedX;
-			this.destY = this.y - this.destX + Math.floor((Math.random() * this.destX*2)+1);
-			this.destY -= this.destY % this.speedY;
-			if(this.destX < -100)
-				this.destX =-100;
-			if(this.destY < 0)
-				this.destY = 0;
-			if(this.destY > 432)
-				this.destY =432;
-			
-			this.moveTo(this.destX,this.destY);
+			if((this.destX != this.x) || (this.destY != this.y)){
+				this.moveTo(this.destX,this.destY);
+			}
+			else{
+				this.destX = this.x - 100 + Math.floor((Math.random() * 100)+1);
+				this.destX -= this.destX % this.speedX;
+				this.destY = this.y - this.destX + Math.floor((Math.random() * this.destX*2)+1);
+				this.destY -= this.destY % this.speedY;
+				if(this.destX < -100)
+					this.destX =-100;
+				if(this.destY < 0)
+					this.destY = 0;
+				if(this.destY > 432)
+					this.destY =432;
+				
+				this.moveTo(this.destX,this.destY);
+			}
 		}
 		
 		this.hitBox.moveTo(this.x, this.y);

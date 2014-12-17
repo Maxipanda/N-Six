@@ -143,7 +143,6 @@ LevelScreen.prototype.initialize = function() {
 	var player = new Player(0, 0, 0, colGroups, colFilter, rect1, 1);
 	this.player = player;
 	initEnemies(50, 5000, 480, this.enemies);
-	//this.enemies.push(enemy);
 
 };
 
@@ -211,20 +210,28 @@ LevelScreen.prototype.update = function () {
     ////////////////////////TEST FIN DE VIE DES BOULETTES ET ENEMIS /////////
     for (i = 0; i < this.enemies.length; i++) {
         if (this.enemies[i].x < -50) {
-
+            
         }
     }
-
+    
+    toRemove = [];
     for (i = 0; i < bulletsPlayer.length; i++) {
         if (bulletsPlayer[i].y < -50 || bulletsPlayer[i].y > 500 || bulletsPlayer[i].x > 700) {
-
+            toRemove.push(bulletsPlayer[i]);
         }
     }
+    for (j = 0; j < toRemove.length; j++) {
+        bulletsPlayer.splice(bulletsPlayer.indexOf(toRemove[j]), 1);
+    }
 
+    toRemove = [];
     for (i = 0; i < this.bulletsEnemies.length; i++) {
-        if (this.bulletsEnemies[i].x < -50 || this.bulletsEnemies[i].y > 500 || this.bulletsEnemies[i].x > 700) {
-
+        if (this.bulletsEnemies[i].x < -50 || this.bulletsEnemies[i].y > 500 || this.bulletsEnemies[i].x < -50) {
+            toRemove.push(bulletsEnemies[i]);
         }
+    }
+	for (j = 0; j < toRemove.length; j++) {
+        bulletsEnemies.splice(bulletsEnemies.indexOf(toRemove[j]), 1);
     }
 	
 	var animToDelete = [];
