@@ -125,40 +125,60 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
 	GameEntity.call(this, x,y,z,collisionGroups,collisionFilters, hitBox); 
     this.weaponId = weaponId;
     this.speed = 4;
+    this.lastShoot = new Date();
+    this.shootRate = 10;
 	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
 		
 		/*Check pressed touched*/
+		var mvX, mvY;
+		
 		if(input.iskeyCode(input.down)){
 			this.y += this.speed;
-			console.log("yy");
+			mvY = this.speed;
 		}
 		if(input.iskeyCode(input.up)){
 			this.y -= this.speed;
+			mvY = -this.speed;
 		}
 		if(input.iskeyCode(input.left)){
 			this.x -= this.speed;
+			mvX = -this.speed;
 		}
 		if(input.iskeyCode(input.right)){
 			this.x += this.speed;
+			mvX = this.speed;
 		}
 		
+		this.hitBox.moveTo(this.x + mvX, this.y + mvY);
 		
 		if(this.x < 0) this.x = 0;
-		if(this.x > 432) this.x = 432;
+		if(this.x > 592) this.x = 592;
 		if(this.y < 0) this.y = 0;
-		if(this.y > 608) this.y = 608;
-    }
+		if(this.y > 448) this.y = 448;
+		
+		if(input.iskeyCode(input.shoot) && ((new Date())-this.lastShoot) >= 1000/this.shootRate){
+			
+			this.lastShoot = new Date();
+			this.shoot();	
+		}
+		
+    };
 	
 	this.render = function(g){
 		this.checkCoordinates("Function render undefined coordinates");
         if(g == undefined){alert("Function render undefined parameter g (HTMLCanvas2DContext)");}
 		g.drawImage(assetManager.getImage("img-spaceship1"), this.x, this.y);
-    }
-	
+
+    };
+    
 	this.shoot = function(){
-    }
+    
+    	var bullet = new Bullet(this.x + 43, this.y+5, 0, 0, 0, new Rectangle(this.x + 48, this.y), 0);
+    	//LevelScreen.bulletsPlayer.push(bullet);
+    	bulletsPlayer.push(bullet);
+    };
 };
 
 /**
@@ -173,8 +193,10 @@ var Enemy = function(x,y,z,hitBox) {
 	this.speedX = 2;
 	this.speedY = 4;
 	
-	this.destX = x;
-	this.destY = y;
+	this.destX = x - (x % this.speedX);
+	this.destY = y - (x % this.speedY);
+	
+	this.lastShoot = new Date();
 	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
@@ -184,37 +206,37 @@ var Enemy = function(x,y,z,hitBox) {
 		}
 		else{
 			this.destX = this.x - 100 + Math.floor((Math.random() * 100)+1);
-			this.destX -= this.destX % 2;
+			this.destX -= this.destX % this.speedX;
 			this.destY = this.y - this.destX + Math.floor((Math.random() * this.destX*2)+1);
-			this.destY -= this.destY % 4;
-			if(this.destX < 0)
-				this.destX =0;
+			this.destY -= this.destY % this.speedY;
+			if(this.destX < -100)
+				this.destX =-100;
 			if(this.destY < 0)
-				this.destY =0;
-			if(this.destY > 368)
-				this.destY =368;
+				this.destY = 0;
+			if(this.destY > 432)
+				this.destY =432;
 			
 			this.moveTo(this.destX,this.destY);
 		}
 		
+		//this.hitBox.moveTo(this.x, this.y);
     }
 	
 	this.moveTo = function(x,y)	{
-		if(x < this.x)
+	
+		if(Math.abs(x - this.x) <= this.speedX)
+			this.x = x;
+		else if(x < this.x)
 			this.x -= this.speedX;
 		else if(x > this.x)
 			this.x += this.speedX;
 		
-		if(y > this.y)
+		if(Math.abs(y - this.y) <= this.speedY)
+			this.y = y;
+		else if(y > this.y)
 			this.y += this.speedY;
 		else if (y < this.y)
 			this.y -= this.speedY;
-	}
-	
-	//TODO: Remove when AssetManager is implemented
-	if(typeof AssetManager == 'undefined'){
-		this.image= new Image();
-		this.image.src = "./images/Enemy01.png";
 	}
 	
 	this.render = function(g){
@@ -223,7 +245,11 @@ var Enemy = function(x,y,z,hitBox) {
 		g.drawImage(assetManager.getImage("img-enemy1"), this.x, this.y);
     }
 	
+	
 	this.shoot = function(){
+		if(this.lastShoot.getTime() <= new Date().getTime() + 1000/60){
+			//return new Bullet(this.x,this.y,this.z,0,0,new Rectangle(this.x,this.y,this.x+16,this.y+16),0,2)
+		}
     }
 };
 
@@ -330,27 +356,19 @@ var Animation = function(x,y,z,collisionGroups,collisionFilters, hitBox, image, 
 		if(this.currFrame >= numFrame)
 			this.currFrame = 0;
     }
-	
-	//TODO: Remove when AssetManager is implemented
-	if(typeof AssetManager == 'undefined'){
-		this.image= new Image();
-		this.image.src = "./images/Explosion01.png";/*
-		this.width = image.width();
-		this.height = image.height();*/
-		this.width = 320.0;
-		this.height = 64.0;
-	}
-	else
-	{
-		this.image = image;
-		this.width = image.width;
-		this.height = image.height;
-	}
+
+	this.image = image;
+	this.width = this.image.width;
+	this.height = this.image.height;
 	
 	this.render = function(g){
 		this.checkCoordinates("Function render undefined coordinates");
         if(g == undefined){alert("Function render undefined parameter g (HTMLCanvas2DContext)");}
-
+		if(this.width == 0)
+		{
+			this.width = this.image.width;
+			this.height = this.image.height;
+		}
 		g.drawImage(this.image,
 	   this.currFrame * this.width / this.numFrame,
 	   0,
@@ -370,14 +388,14 @@ var Animation = function(x,y,z,collisionGroups,collisionFilters, hitBox, image, 
 *
 * @param angle Angle of the shoot in radian
 */
-var Bullet = function(x,y,z,collisionGroups,collisionFilters, hitBox, angle) {
+var Bullet = function(x,y,z,collisionGroups,collisionFilters, hitBox, angle,bulletId) {
 	GameEntity.call(this, x,y,z,collisionGroups,collisionFilters, hitBox);
 	
-	this.bulletId = 1;
+	this.bulletId = bulletId;
 	
 	if(angle == undefined)
 	{
-		angle = 0
+		angle = 0;
 	}
 	
 	this.speed = 10;
@@ -387,9 +405,23 @@ var Bullet = function(x,y,z,collisionGroups,collisionFilters, hitBox, angle) {
 
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
-		this.x += this.speedX;
-		this.y += this.speedY;
-    };
+		
+		switch(this.bulletId)
+		{
+			default:
+			case 1:
+				this.x += this.speedX;
+				this.y += this.speedY;
+			break;
+			case 2:
+				this.x -= this.speedX;
+				this.y -= this.speedY;
+			break;
+		}
+		
+		//MOVE THE HITBOX
+		this.hitBox.moveTo(this.x, this.y);
+	};
 	
 	this.render = function(g){
 		this.checkCoordinates("Function render undefined coordinates");

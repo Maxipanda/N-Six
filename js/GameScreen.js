@@ -98,14 +98,14 @@ ChoiceScreen.prototype.dispose = function() {
 
 
 
-
+var bulletsPlayer;
 // Level Screen
 var LevelScreen = function() {
 
     this.infiniteBackgrounds;
     this.enemies;
     this.player;
-    this.bulletsPlayer;
+    //bulletsPlayer;
     this.bulletsEnemies;
 	this.assets;
 };
@@ -118,7 +118,7 @@ LevelScreen.prototype.initialize = function() {
 	
 	this.infiniteBackgrounds = [];
 	this.enemies = [];
-	this.bulletsPlayer = [];
+	bulletsPlayer = [];
 	this.bulletsEnemies= [];
 	
 	var bg1 = new InfiniteBackground(0,0,0,0,0,0, assetManager.getImage("img-bg1"), 4);
@@ -140,8 +140,8 @@ LevelScreen.prototype.initialize = function() {
 	var rect2 = new Rectangle(11, 11, 20, 20);
 	var player = new Player(0, 0, 0, colGroups, colFilter, rect1, 1);
 	this.player = player;
-	
-	initEnemies(50, 10000, 480, this.enemies);
+	initEnemies(50, 5000, 480, this.enemies);
+	//this.enemies.push(enemy);
 
 };
 
@@ -151,39 +151,70 @@ LevelScreen.prototype.update = function () {
     this.infiniteBackgrounds[1].update();
     this.player.update();
     for (i = 0; i < this.enemies.length; i++) {
-        this.enemies[i].update();   
+        this.enemies[i].update();
     }
-
-
+    for (i = 0; i < bulletsPlayer.length; i++) {
+        bulletsPlayer[i].update();
+    }
+    
     ///////////////////////////TEST COLLISIONS/////////////////////////
     // Test des colisions ! $
     // Pour tout les enemies
     for (i = 0; i < this.enemies.length; i++) {
-        for (j = 0; j < this.bulletsPlayer; j++) {
+        for (j = 0; j < bulletsPlayer; j++) {
             //on regarde si il se prend un boulette du joueur
-            if (this.bulletsPlayer[j].hitTest(this.enemies[i])) {
-                console.log("KABOOOM");
+
+            if (bulletsPlayer[j].hitTest(this.enemies[i])) {
+                //console.log("KABOOOM");
             }
         }
         //On regarde si il collide avec le joueur
         if (this.player.hitTest(this.enemies[i])) {
-            console.log("AARRRRGHHH!");
+           // console.log("AARRRRGHHH!");
             // On perd une vie;
         }
     }
     // Pour toute les boulettes des enemies
     for (i = 0; i < this.bulletsEnemies.length; i++) {
-        for (j = 0; j < this.bulletsPlayer.length; j++) {
-            if (this.bulletsPlayer[j].hitTest(this.bulletsEnemies[i])) {
-                console.log("Bullets Collide !");
+
+        for (j = 0; j < bulletsPlayer.length; j++) {
+            if (bulletsPlayer[j].hitTest(this.bulletsEnemies[i])) {
+               // console.log("Bullets Collide !");
+
             }
         }
         if (this.player.hitTest(this.bulletsEnemies[i])) {
-            console.log("Bullets Enemies collide player  !");
+            //console.log("Bullets Enemies collide player  !");
         }
     }
+    
     //////////////////////////////////////////////////////////////////////////
-};
+
+    ////////////////////////TEST FIN DE VIE DES BOULETTES ET ENEMIS /////////
+    for (i = 0; i < this.enemies.length; i++) {
+        if (this.enemies[i].x < -50) {
+
+        }
+    }
+
+    for (i = 0; i < bulletsPlayer.length; i++) {
+        if (bulletsPlayer[i].y < -50 || bulletsPlayer[i].y > 500 || bulletsPlayer[i].x > 700) {
+
+        }
+    }
+
+    for (i = 0; i < this.bulletsEnemies.length; i++) {
+        if (this.bulletsEnemies[i].x < -50 || this.bulletsEnemies[i].y > 500 || this.bulletsEnemies[i].x > 700) {
+
+        }
+    }
+
+}
+
+LevelScreen.prototype.dispose = function() {
+    console.log('LevelScreen dispose');
+
+    };
 
 LevelScreen.prototype.render = function (graphics) {
 
@@ -194,13 +225,13 @@ LevelScreen.prototype.render = function (graphics) {
     {
         this.enemies[i].render(graphics);
     }
+    for (i = 0; i < bulletsPlayer.length; i++)
+    {
+        bulletsPlayer[i].render(graphics);
+    }
+    
 };
 
-LevelScreen.prototype.dispose = function() {
-    console.log('LevelScreen dispose');
-
-
-};
 
 LevelScreen.prototype.addEntity = function(entity) {
 	// entity de type GameEntity
