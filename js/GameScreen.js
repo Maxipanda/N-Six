@@ -86,21 +86,40 @@ ChoiceScreen.prototype.dispose = function() {
 
 // Level Screen
 var LevelScreen = function() {
-	
+
+	this.infiniteBackgrounds;
+	this.assets;
 };
 
 LevelScreen.prototype = Object.create(GameScreen);
 
 LevelScreen.prototype.initialize = function() {
+
 	console.log('LevelScreen initialize');
+	
+	this.infiniteBackgrounds = [];
+	
+	var bg1 = new InfiniteBackground(0,0,0,0,0,0, assetManager.getImage("img-bg1"), 4);
+	var bg2 = new InfiniteBackground(0,0,0,0,0,0, assetManager.getImage("img-bg2"), 2);
+	
+	bg1.initialize();
+	bg2.initialize();
+	
+	// TO BE REPLACED
+	this.infiniteBackgrounds.push(bg1);
+	this.infiniteBackgrounds.push(bg2);
 };
 
 LevelScreen.prototype.update = function () {
-	
+
+    this.infiniteBackgrounds[0].update();
+	this.infiniteBackgrounds[1].update();
 };
 
-LevelScreen.prototype.render = function () {
-	
+LevelScreen.prototype.render = function (graphics) {
+
+    this.infiniteBackgrounds[0].render(graphics);
+	this.infiniteBackgrounds[1].render(graphics);
 };
 
 LevelScreen.prototype.dispose = function() {
