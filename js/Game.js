@@ -26,33 +26,30 @@ function Game() {
     };
 
     this.update = function update() {
-        this.currentScreen.update();
+        this.currentScreen.prototype.update();
     };
 
     this.render = function render() {
-        this.currentScreen.render();
+        this.currentScreen.prototype.render();
     }
 
     this.start = function start() {
-        initialisation();
-        /* Start game  ! ( set interval )*/
+        var gameCanvas = document.createElement("canvas");
+        gameCanvas.setAttribute("id", "gameCanvas");
+        document.getElementById("content").appendChild(gameCanvas);
+        LevelScreen.prototype.initialize();
+        this.setScreen(LevelScreen);
+        console.log("End of initialisation...")
     }
 }
 
-
-
-function initialisation() {
-    var gameCanvas = document.createElement("canvas");
-    gameCanvas.setAttribute("id", "gameCanvas");
-    document.getElementById("content").appendChild(gameCanvas);
-    console.log("End of initialisation...")
-}
-
 function startTest() {
-    
-    var game = new Game();
+    game = new Game();
     game.start();
-
+    var interval = setInterval(function () {
+        game.update();
+        game.render();
+    }, 1000 / 60);
 }
 
 window.onload = startTest();

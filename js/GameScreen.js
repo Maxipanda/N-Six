@@ -95,11 +95,11 @@ LevelScreen.prototype.initialize = function() {
 	console.log('LevelScreen initialize');
 };
 
-LevelScreen.prototype.update = function() {
+LevelScreen.prototype.update = function () {
 	
 };
 
-LevelScreen.prototype.render = function() {
+LevelScreen.prototype.render = function () {
 	
 };
 
