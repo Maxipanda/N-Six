@@ -161,25 +161,46 @@ var Enemy = function(x,y,z,collisionGroups,collisionFilters, hitBox) {
 
 	GameEntity.call(this, x,y,z,collisionGroups,collisionFilters, hitBox);
 	
-	this.destX = Math.floor((Math.random() * 500));
-	this.destX += this.destX % 2;
-	this.destY = Math.floor((Math.random() * 300));
-	this.destY += 4 - this.destY % 4;
+	this.speedX = 2;
+	this.speedY = 4;
+	
+	this.destX = x;
+	this.destY = y;
 	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
 		
-		if(this.destX < this.x)
-			this.x += -2;
-		else if(this.destY == this.y)
-			this.destX = 0;
-		
-		if(this.destY > this.y)
-			this.y += 4;
-		else if (this.destY < this.y)
-			this.y -= 4;
+		if((this.destX != this.x) || (this.destY != this.y)){
+			this.moveTo(this.destX,this.destY);
+		}
+		else{
+			this.destX = this.x - 100 + Math.floor((Math.random() * 100)+1);
+			this.destX -= this.destX % 2;
+			this.destY = this.y - this.destX + Math.floor((Math.random() * this.destX*2)+1);
+			this.destY -= this.destY % 4;
+			if(this.destX < 0)
+				this.destX =0;
+			if(this.destY < 0)
+				this.destY =0;
+			if(this.destY > 368)
+				this.destY =368;
+			
+			this.moveTo(this.destX,this.destY);
+		}
 		
     }
+	
+	this.moveTo = function(x,y)	{
+		if(x < this.x)
+			this.x -= this.speedX;
+		else if(x > this.x)
+			this.x += this.speedX;
+		
+		if(y > this.y)
+			this.y += this.speedY;
+		else if (y < this.y)
+			this.y -= this.speedY;
+	}
 	
 	//TODO: Remove when AssetManager is implemented
 	if(typeof AssetManager == 'undefined'){
