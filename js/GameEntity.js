@@ -196,7 +196,7 @@ var Enemy = function(x,y,z,hitBox) {
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
 		
-		if(this.x > 640){
+		if(this.x > 640 || this.x < 0){
 			this.x -= this.speedX;
 		}
 		else{
@@ -219,7 +219,12 @@ var Enemy = function(x,y,z,hitBox) {
 			}
 		}
 		
-		//this.hitBox.moveTo(this.x, this.y);
+		this.hitBox.moveTo(this.x, this.y);
+		
+		if(((new Date()) - lastShoot) > 2000 && this.x < 640 && this.x > 0){
+			this.shoot();
+			this.lastShoot = new Date();	
+		}
     }
 	
 	this.moveTo = function(x,y)	{
@@ -247,10 +252,11 @@ var Enemy = function(x,y,z,hitBox) {
 	
 	
 	this.shoot = function(){
-		if(this.lastShoot.getTime() <= new Date().getTime() + 1000/60){
-			//return new Bullet(this.x,this.y,this.z,0,0,new Rectangle(this.x,this.y,this.x+16,this.y+16),0,2)
-		}
-    }
+    
+    	var bullet = new Bullet(this.x - 16, this.y+8, 0, 0, 0, new Rectangle(this.x - 16, this.y+8, this.x, this.y + 24), 0, 2);
+    	//LevelScreen.bulletsPlayer.push(bullet);
+    	bulletsEnemies.push(bullet);
+    };
 };
 
 

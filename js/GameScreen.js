@@ -99,6 +99,7 @@ ChoiceScreen.prototype.dispose = function() {
 
 
 var bulletsPlayer;
+var bulletsEnemies;
 // Level Screen
 var LevelScreen = function() {
 
@@ -106,7 +107,7 @@ var LevelScreen = function() {
     this.enemies;
     this.player;
     //bulletsPlayer;
-    this.bulletsEnemies;
+    //this.bulletsEnemies;
 	this.assets;
 };
 
@@ -119,7 +120,7 @@ LevelScreen.prototype.initialize = function() {
 	this.infiniteBackgrounds = [];
 	this.enemies = [];
 	bulletsPlayer = [];
-	this.bulletsEnemies= [];
+	bulletsEnemies= [];
 	
 	var bg1 = new InfiniteBackground(0,0,0,0,0,0, assetManager.getImage("img-bg1"), 4);
 	var bg2 = new InfiniteBackground(0,0,0,0,0,0, assetManager.getImage("img-bg2"), 2);
