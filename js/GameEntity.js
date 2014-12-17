@@ -163,16 +163,12 @@ var Enemy = function(x,y,z,collisionGroups,collisionFilters, hitBox) {
 	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
-		
 		this.x += -2;
-		
-		if(this.y > 0 && this.y <= 368 )
-		{
+		if(this.y > 0 && this.y <= 368 ){
 			this.y += Math.floor((Math.random() * 5) - 2);
 			if(this.y <0)
 				this.y = 0;
 		}
-		
     }
 	
 	//TODO: Remove when AssetManager is implemented
@@ -255,10 +251,56 @@ var Animation = function(x,y,z,collisionGroups,collisionFilters, hitBox, image, 
 	
     this.image = image;
     this.numFrame = numFrame;
+    this.currFrame = 0;
 	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
-		this.numFrame += 1;
+		this.currFrame += 1;
+		if(this.currFrame >= numFrame)
+			this.currFrame = 0;
+    }
+	
+	
+	//TODO: Remove when AssetManager is implemented
+	if(typeof AssetManager == 'undefined'){
+		this.image= new Image();
+		this.image.src = "./images/Explosion01.png";
+		
+		this.width = 320.0;
+		this.height = 64.0;
+	}
+	
+	this.render = function(g){
+		this.checkCoordinates("Function render undefined coordinates");
+        if(g == undefined){alert("Function render undefined parameter g (HTMLCanvas2DContext)");}
+		if(typeof AssetManager == 'undefined')
+		{
+			//g.drawImage(this.image, this.x, this.y);
+			/*
+			g.drawImage(this.image,
+           this.currFrame * this.width / this.numFrame,
+           0,
+           this.width / this.numFrame,
+           this.height,
+           this.x,
+           this.y,
+           this.width / this.numFrame,
+           this.height);
+			*/
+		}
+		else
+		{
+		/*
+			g.drawImage(AssetManager.getInstance().getImage("animation"),
+           this.currFrame * this.width / this.numFrame,
+           0,
+           this.width / numFrame,
+           this.height,
+           this.x,
+           this.y,
+           this.width / numFrame,
+           this.height);*/
+		}
     }
 	
 };
