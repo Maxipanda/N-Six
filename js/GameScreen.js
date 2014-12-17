@@ -153,6 +153,36 @@ LevelScreen.prototype.update = function () {
     for (i = 0; i < this.enemies.length; i++) {
         this.enemies[i].update();   
     }
+
+
+    ///////////////////////////TEST COLLISIONS/////////////////////////
+    // Test des colisions ! $
+    // Pour tout les enemies
+    for (i = 0; i < this.enemies.length; i++) {
+        for (j = 0; j < this.bulletsPlayer; j++) {
+            //on regarde si il se prend un boulette du joueur
+            if (this.bulletsPlayer[j].hitTest(this.enemies[i])) {
+               // console.log("KABOOOM");
+            }
+        }
+        //On regarde si il collide avec le joueur
+        if (this.player.hitTest(this.enemies[i])) {
+           // console.log("AARRRRGHHH!");
+            // On perd une vie;
+        }
+    }
+    // Pour toute les boulettes des enemies
+    for (i = 0; i < this.bulletsEnemies.length; i++) {
+        for (j = 0; j < this.bulletsPlayer.length; j++) {
+            if (this.bulletsPlayer[j].hitTest(this.bulletsEnemies[i])) {
+               // console.log("Bullets Collide !");
+            }
+        }
+        if (this.player.hitTest(this.bulletsEnemies[i])) {
+            //console.log("Bullets Enemies collide player  !");
+        }
+    }
+    //////////////////////////////////////////////////////////////////////////
 };
 
 LevelScreen.prototype.render = function (graphics) {
@@ -168,21 +198,6 @@ LevelScreen.prototype.render = function (graphics) {
 
 LevelScreen.prototype.dispose = function() {
     console.log('LevelScreen dispose');
-    // Test des colisions ! $
-    // Pour tout les enemies
-    for (i = 0; i < this.enemies.length; i++) {
-        for (j = 0; j < this.bulletsPlayer; j++) {
-            //on regarde si il se prend un boulette du joueur
-            if(this.bulletsPlayer[j].hitTest(this.enemies[i])){
-                console.log("KABOOOM");
-            }
-        }
-        //On regarde si il collide avec le joueur
-        if (this.player.hitTest(this.enemies[i])) {
-            // On perd une vie;
-        }
-    }
-    // Pour toute les boulettes des enemies
 
 
 };
@@ -220,8 +235,9 @@ GameOverScreen.prototype.dispose = function() {
 
 function initEnemies(nb, width, height,list) {
 	
+    var rect1 = new Rectangle(-10, -10, 10, 10);
 	for(i = 0; i < nb; i++) {
-	    enemy = new Enemy(Math.floor(Math.random() * width + 1), Math.floor(Math.random() * height + 1), 0);
+	    enemy = new Enemy(Math.floor(Math.random() * width + 1), Math.floor(Math.random() * height + 1), 0, rect1);
 	    list.push(enemy);
 	}
 }
