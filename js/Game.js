@@ -15,6 +15,7 @@ var instance1 = new UneClasse();
 */
 
 var assetManager;
+var input;
 
 function Game() {
     this.score = 0;
@@ -53,6 +54,7 @@ function Game() {
 
 function loadAssets(){
 	
+	input = new Input.getInstance();
 	assetManager = new AssetManager.getInstance();
 	assetManager.init(startTest);
 }
