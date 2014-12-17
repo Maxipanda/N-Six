@@ -153,6 +153,15 @@ LevelScreen.prototype.render = function (graphics) {
 
 LevelScreen.prototype.dispose = function() {
     console.log('LevelScreen dispose');
+    // Test des colisions ! $
+    // Pour tout les enemies, on regarde si il se prend un boulette du joueur
+    for (i = 0; i < this.enemies.length; i++) {
+        for (j = 0; j < this.bulletsPlayer; j++) {
+            if(this.bulletsPlayer[j].hitTest(this.enemies[i])){
+                console.log("KABOOOM");
+            }
+        }
+    }
 
 };
 

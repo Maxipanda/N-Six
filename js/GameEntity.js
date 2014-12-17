@@ -103,10 +103,7 @@ function GameEntity(x,y,z,collisionGroups,collisionFilters, hitBox){
 		if(entity == undefined){alert("Function hitTest undefined parameter entity (GameEntity)");}
 		if(this.hitBox == undefined){alert("Function hitTest undefined hitBox");}
 		if(entity.hitBox == undefined){alert("Function hitTest undefined parameter hitBox");}
-        if(! this.canCollideWith(entity)){
-			return false;
-		}
-		return this.hitBox.intersect(entity.hitBox);
+        return this.hitBox.intersect(entity.hitBox);
     }
 	
 	this.checkCoordinates = function(messg){
