@@ -1,4 +1,4 @@
-﻿
+
 /* 
 ///////////////////////// AIDE \\\\\\\\\\\\\\\\\\\\\\\\\\\
 Pour creer un objet et l'instancier en Javascript avec attributs et méthodes :
@@ -35,7 +35,7 @@ function Game() {
 
     this.render = function render() {
         this.currentScreen.prototype.render(this.graphics);
-    }
+    };
 
     this.start = function start() {
         var gameCanvas = document.createElement("canvas");
@@ -48,7 +48,7 @@ function Game() {
         this.setScreen(LevelScreen);
         this.graphics = gameCanvas.getContext("2d");
         console.log("End of initialisation...")
-    }
+    };
 }
 
 function loadAssets(){

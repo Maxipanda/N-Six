@@ -127,7 +127,15 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
 	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
+		
 		/*Check pressed touched*/
+		
+		
+		
+		if(this.x < 0) this.x = 0;
+		if(this.x > 432) this.x = 432;
+		if(this.y < 0) this.y = 0;
+		if(this.y > 608) this.y = 608;
     }
 	
 	this.render = function(g){
@@ -368,7 +376,7 @@ var Bullet = function(x,y,z,collisionGroups,collisionFilters, hitBox, angle) {
 		this.checkCoordinates("Function update, undefined coordinates");
 		this.x += this.speedX;
 		this.y += this.speedY;
-    }
+    };
 	
 	this.render = function(g){
 		this.checkCoordinates("Function render undefined coordinates");
@@ -383,7 +391,7 @@ var Bullet = function(x,y,z,collisionGroups,collisionFilters, hitBox, angle) {
 				g.drawImage(assetManager.getImage("img-bullet2"), this.x, this.y);
 			break;
 		}
-    }
+    };
 	
 	
 };
