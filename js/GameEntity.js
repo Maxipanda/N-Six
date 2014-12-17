@@ -103,9 +103,9 @@ function GameEntity(x,y,z,collisionGroups,collisionFilters, hitBox){
 		if(entity == undefined){alert("Function hitTest undefined parameter entity (GameEntity)");}
 		if(this.hitBox == undefined){alert("Function hitTest undefined hitBox");}
 		if(entity.hitBox == undefined){alert("Function hitTest undefined parameter hitBox");}
-        if(! this.canCollideWith(entity)){
+        /*if(! this.canCollideWith(entity)){
 			return false;
-		}
+		}*/
 		return this.hitBox.intersect(entity.hitBox);
     }
 	
@@ -132,7 +132,7 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
 		/*Check pressed touched*/
 		if(input.iskeyCode(input.down)){
 			this.y += this.speed;
-			console.log("yy");
+			//console.log("yy");
 		}
 		if(input.iskeyCode(input.up)){
 			this.y -= this.speed;

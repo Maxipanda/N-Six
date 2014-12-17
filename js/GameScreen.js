@@ -108,6 +108,7 @@ var LevelScreen = function() {
     this.bulletsPlayer;
     this.bulletsEnemies;
 	this.assets;
+	this.animations;
 };
 
 LevelScreen.prototype = Object.create(GameScreen);
@@ -120,6 +121,7 @@ LevelScreen.prototype.initialize = function() {
 	this.enemies = [];
 	this.bulletsPlayer = [];
 	this.bulletsEnemies= [];
+	this.animations= [];
 	
 	var bg1 = new InfiniteBackground(0,0,0,0,0,0, assetManager.getImage("img-bg1"), 4);
 	var bg2 = new InfiniteBackground(0,0,0,0,0,0, assetManager.getImage("img-bg2"), 2);
@@ -162,12 +164,13 @@ LevelScreen.prototype.update = function () {
         for (j = 0; j < this.bulletsPlayer; j++) {
             //on regarde si il se prend un boulette du joueur
             if (this.bulletsPlayer[j].hitTest(this.enemies[i])) {
-               // console.log("KABOOOM");
+               supressFrom(this.enemies,this.enemies[i]);
             }
         }
         //On regarde si il collide avec le joueur
         if (this.player.hitTest(this.enemies[i])) {
-           // console.log("AARRRRGHHH!");
+			console.log("AAAA");
+            //supressFrom(this.enemies,this.enemies[i]);
             // On perd une vie;
         }
     }
@@ -203,6 +206,12 @@ LevelScreen.prototype.update = function () {
 
         }
     }
+	
+	/*
+	for(i = 0; i < this.animations.length; i++)
+	{
+		this.animations[i].update();
+	}*/
 
 };
 
@@ -215,6 +224,10 @@ LevelScreen.prototype.render = function (graphics) {
     {
         this.enemies[i].render(graphics);
     }
+	for(i = 0; i < this.animations.length; i++)
+	{
+		this.animations[i].render(graphics);
+	}
 };
 
 LevelScreen.prototype.dispose = function() {
@@ -256,9 +269,22 @@ GameOverScreen.prototype.dispose = function() {
 
 function initEnemies(nb, width, height,list) {
 	
-    var rect1 = new Rectangle(-10, -10, 10, 10);
+    
 	for(i = 0; i < nb; i++) {
-	    enemy = new Enemy(Math.floor(Math.random() * width + 1), Math.floor(Math.random() * height + 1), 0, rect1);
+		var x = Math.floor(Math.random() * width + 1);
+		var y = Math.floor(Math.random() * height + 1);
+		var rect1 = new Rectangle(x, y, x+32, y+32);
+	    enemy = new Enemy(x, y, 0, rect1);
 	    list.push(enemy);
 	}
 }
+
+
+function supressFrom(list, entity)
+{
+	var index = list.indexOf(entity);
+	if (index > -1) {
+		list.splice(index, 1);
+	}
+}
+
