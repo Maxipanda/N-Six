@@ -1,4 +1,4 @@
-﻿
+
 /* 
 ///////////////////////// AIDE \\\\\\\\\\\\\\\\\\\\\\\\\\\
 Pour creer un objet et l'instancier en Javascript avec attributs et méthodes :
@@ -16,9 +16,10 @@ var instance1 = new UneClasse();
 function Game() {
     this.score = 0;
     this.numLifes = 0;
-    this.width = 600;
-    this.height = 400;
+    this.width = 640;
+    this.height = 480;
     this.currentScreen = null;
+    this.graphics;
 
 
     this.setScreen = function (gameScreen) {
@@ -30,15 +31,19 @@ function Game() {
     };
 
     this.render = function render() {
-        this.currentScreen.prototype.render();
+        this.currentScreen.prototype.render(this.graphics);
     }
 
     this.start = function start() {
         var gameCanvas = document.createElement("canvas");
         gameCanvas.setAttribute("id", "gameCanvas");
+        gameCanvas.setAttribute("width", this.width);
+        gameCanvas.setAttribute("height", this.height);
         document.getElementById("content").appendChild(gameCanvas);
+
         LevelScreen.prototype.initialize();
         this.setScreen(LevelScreen);
+        this.graphics = gameCanvas.getContext("2d");
         console.log("End of initialisation...")
     }
 }
