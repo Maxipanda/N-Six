@@ -102,6 +102,7 @@ var AssetManager = (function() {
 			if (instance == null) {
 				instance = new constructeur();
 				instance.constructeur = null;
+				instance.init();
 			}
  
 			return instance;
