@@ -173,9 +173,9 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
 *
 *
 */
-var Enemy = function(x,y,z,collisionGroups,collisionFilters, hitBox) {
+var Enemy = function(x,y,z,hitBox) {
 
-	GameEntity.call(this, x,y,z,collisionGroups,collisionFilters, hitBox);
+	GameEntity.call(this, x,y,z,null,null, hitBox);
 	
 	this.speedX = 2;
 	this.speedY = 4;
