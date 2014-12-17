@@ -182,7 +182,28 @@ LevelScreen.prototype.update = function () {
             //console.log("Bullets Enemies collide player  !");
         }
     }
+    
     //////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////TEST FIN DE VIE DES BOULETTES ET ENEMIS /////////
+    for (i = 0; i < this.enemies.length; i++) {
+        if (this.enemies[i].x < -50) {
+
+        }
+    }
+
+    for (i = 0; i < this.bulletsPlayer.length; i++) {
+        if (this.bulletsPlayer[i].y < -50 || this.bulletsPlayer[i].y > 500 || this.bulletsPlayer[i].x > 700) {
+
+        }
+    }
+
+    for (i = 0; i < this.bulletsEnemies.length; i++) {
+        if (this.bulletsEnemies[i].x < -50 || this.bulletsEnemies[i].y > 500 || this.bulletsEnemies[i].x > 700) {
+
+        }
+    }
+
 };
 
 LevelScreen.prototype.render = function (graphics) {
