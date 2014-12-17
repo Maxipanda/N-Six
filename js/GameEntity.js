@@ -103,9 +103,9 @@ function GameEntity(x,y,z,collisionGroups,collisionFilters, hitBox){
 		if(entity == undefined){alert("Function hitTest undefined parameter entity (GameEntity)");}
 		if(this.hitBox == undefined){alert("Function hitTest undefined hitBox");}
 		if(entity.hitBox == undefined){alert("Function hitTest undefined parameter hitBox");}
-        if(! this.canCollideWith(entity)){
+        /*if(! this.canCollideWith(entity)){
 			return false;
-		}
+		}*/
 		return this.hitBox.intersect(entity.hitBox);
     }
 	
@@ -133,37 +133,34 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
 		this.checkCoordinates("Function update, undefined coordinates");
 		
 		/*Check pressed touched*/
-		var mvX, mvY;
 		
 		if(input.iskeyCode(input.down)){
 			this.y += this.speed;
-			mvY = this.speed;
 		}
 		if(input.iskeyCode(input.up)){
 			this.y -= this.speed;
-			mvY = -this.speed;
 		}
 		if(input.iskeyCode(input.left)){
 			this.x -= this.speed;
-			mvX = -this.speed;
 		}
 		if(input.iskeyCode(input.right)){
 			this.x += this.speed;
-			mvX = this.speed;
 		}
-		
-		this.hitBox.moveTo(this.x + mvX, this.y + mvY);
 		
 		if(this.x < 0) this.x = 0;
 		if(this.x > 592) this.x = 592;
 		if(this.y < 0) this.y = 0;
 		if(this.y > 448) this.y = 448;
 		
+		this.hitBox.moveTo(this.x, this.y);
+		
 		if(input.iskeyCode(input.shoot) && ((new Date())-this.lastShoot) >= 1000/this.shootRate){
 			
 			this.lastShoot = new Date();
 			this.shoot();	
 		}
+		
+		//console.log("x :"+ this.x+" y :"+this.y + "hitbox x :"+this.hitBox.x2+ " y : "+this.hitBox.y2 );
 		
     };
     
@@ -187,7 +184,8 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
     
 	this.shoot = function(){
     
-    	var bullet = new Bullet(this.x + 43, this.y+5, 0, 0, 0, new Rectangle(this.x + 48, this.y), 0);
+    	var bullet = new Bullet(this.x + 43, this.y+5, 0, 0, 0, new Rectangle(this.x + 43, this.y+5,this.x + 67, this.y+17), 0);
+		
     	//LevelScreen.bulletsPlayer.push(bullet);
     	bulletsPlayer.push(bullet);
     };
@@ -213,25 +211,30 @@ var Enemy = function(x,y,z,hitBox) {
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
 		
-		if((this.destX != this.x) || (this.destY != this.y)){
-			this.moveTo(this.destX,this.destY);
+		if(this.x > 640){
+			this.x -= this.speedX;
 		}
 		else{
-			this.destX = this.x - 100 + Math.floor((Math.random() * 100)+1);
-			this.destX -= this.destX % this.speedX;
-			this.destY = this.y - this.destX + Math.floor((Math.random() * this.destX*2)+1);
-			this.destY -= this.destY % this.speedY;
-			if(this.destX < -100)
-				this.destX =-100;
-			if(this.destY < 0)
-				this.destY = 0;
-			if(this.destY > 432)
-				this.destY =432;
-			
-			this.moveTo(this.destX,this.destY);
+			if((this.destX != this.x) || (this.destY != this.y)){
+				this.moveTo(this.destX,this.destY);
+			}
+			else{
+				this.destX = this.x - 100 + Math.floor((Math.random() * 100)+1);
+				this.destX -= this.destX % this.speedX;
+				this.destY = this.y - this.destX + Math.floor((Math.random() * this.destX*2)+1);
+				this.destY -= this.destY % this.speedY;
+				if(this.destX < -100)
+					this.destX =-100;
+				if(this.destY < 0)
+					this.destY = 0;
+				if(this.destY > 432)
+					this.destY =432;
+				
+				this.moveTo(this.destX,this.destY);
+			}
 		}
 		
-		//this.hitBox.moveTo(this.x, this.y);
+		this.hitBox.moveTo(this.x, this.y);
     }
 	
 	this.moveTo = function(x,y)	{
@@ -352,6 +355,7 @@ var Animation = function(x,y,z,collisionGroups,collisionFilters, hitBox, image, 
     this.currFrame = 0;
     this.speedFrame = 10;
     this.tempo = 1;
+	this.toDelete =false;
 	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
@@ -363,10 +367,8 @@ var Animation = function(x,y,z,collisionGroups,collisionFilters, hitBox, image, 
 			this.currFrame += 1;
 		}
 		
-		
-		
 		if(this.currFrame >= numFrame)
-			this.currFrame = 0;
+			this.toDelete = true;
     }
 
 	this.image = image;
@@ -433,6 +435,7 @@ var Bullet = function(x,y,z,collisionGroups,collisionFilters, hitBox, angle,bull
 		
 		//MOVE THE HITBOX
 		this.hitBox.moveTo(this.x, this.y);
+		//console.log("x :"+ this.x+" y :"+this.y + "hitbox x :"+this.hitBox.x1+ " y : "+this.hitBox.y1 );
 	};
 	
 	this.render = function(g){
