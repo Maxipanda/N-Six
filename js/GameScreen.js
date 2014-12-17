@@ -86,23 +86,53 @@ ChoiceScreen.prototype.dispose = function() {
 
 // Level Screen
 var LevelScreen = function() {
-	
+
+	this.graphics;
+	this.infiniteBackgrounds;
 };
 
 LevelScreen.prototype = Object.create(GameScreen);
 
 LevelScreen.prototype.initialize = function() {
 	console.log('LevelScreen initialize');
+	
+	this.infiniteBackgrounds = [];
+	
+	// INITIALIZE GRAPHICS
+	var canvas = document.getElementById("gameCanvas");
+	this.graphics = canvas.getContext("2d");
+	
+	// LOAD BACKGROUND IMAGES - REPLACE WITH ASSET-MANAGER METHODS
+	var img1 = new Image();
+	img1.src = "images/Background01.png";
+	var img2 = new Image();
+	img2.src = "images/Background02.png";
+
+	var bg1 = new InfiniteBackground(0,0,0,0,0,0, img1, canvas.width, canvas.height, 4);
+	var bg2 = new InfiniteBackground(0,0,0,0,0,0, img2, canvas.width, canvas.height, 2);
+	
+	bg1.initialize();
+	bg2.initialize();
+	
+	// TO BE REPLACED
+	this.infiniteBackgrounds.push(bg1);
+	this.infiniteBackgrounds.push(bg2);
+	
 };
 
 LevelScreen.prototype.update = function () {
-    console.log('LevelScreen update');
+    //console.log('LevelScreen update');
+    
+    this.infiniteBackgrounds[0].update();
+	this.infiniteBackgrounds[1].update();
 	
 };
 
 LevelScreen.prototype.render = function () {
-    console.log('LevelScreen render');
-	
+    //console.log('LevelScreen render');
+    
+    this.infiniteBackgrounds[0].render(this.graphics);
+	this.infiniteBackgrounds[1].render(this.graphics);
 };
 
 LevelScreen.prototype.dispose = function() {

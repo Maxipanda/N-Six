@@ -173,17 +173,49 @@ var Bonus = function(x,y,z,collisionGroups,collisionFilters, hitBox) {
 * @param offsetX
 * @param offsetY
 */
-var InfiniteBackground = function(x,y,z,collisionGroups,collisionFilters, hitBox, image, virtualDepth,offsetX, offsetY) {
+var InfiniteBackground = function(x,y,z,collisionGroups,collisionFilters, hitBox, image, canvasWidth, canvasHeight, speed) {
 	GameEntity.call(this, x,y,z,collisionGroups,collisionFilters, hitBox);
 	
     this.image = image;
-    this.virtualDepth = virtualDepth;
-    this.offsetX = offsetX;
-    this.offsetY = offsetY;
+	this.position = 0;
+	this.speed = speed;
+	
+	this.CANVAS_WIDTH = canvasWidth;
+	this.CANVAS_HEIGHT = canvasHeight;
+	this.BG_WIDTH;
+	this.BG_HEIGHT;
+	
+	this.initialize = function(){
+		
+		this.BG_WIDTH = this.image.width;
+		this.BG_HEIGHT = this.image.height;
+	}
 	
 	this.update = function(){
-		this.checkCoordinates("Function update, undefined coordinates");
-    }
+		
+		// Update background position
+		
+		this.position+=this.speed;
+		if(this.position >= this.BG_WIDTH)
+			this.position = 0;
+	}
+	
+	this.render = function(graphics){
+		
+		// Display background
+		
+		graphics.drawImage(this.image, this.position,0, this.BG_WIDTH - this.position, this.BG_HEIGHT, 0, 0, this.BG_WIDTH - this.position, this.BG_HEIGHT);
+		graphics.drawImage(this.image, 0, 0, this.BG_WIDTH, this.BG_HEIGHT, this.BG_WIDTH - this.position, 0, this.BG_WIDTH, this.BG_HEIGHT);
+		graphics.drawImage(this.image, this.position,0, this.BG_WIDTH - this.position, this.BG_HEIGHT, 0, this.BG_HEIGHT, this.BG_WIDTH - this.position, this.BG_HEIGHT);
+		graphics.drawImage(this.image, 0, 0, this.BG_WIDTH, this.BG_HEIGHT, this.BG_WIDTH - this.position, this.BG_HEIGHT, this.BG_WIDTH, this.BG_HEIGHT);
+		
+		if(this.position > 2*(this.BG_WIDTH)-(this.CANVAS_WIDTH)){
+		
+			graphics.drawImage(this.image, 0, 0, this.BG_WIDTH, this.BG_HEIGHT, (2*(this.BG_WIDTH) - this.position), 0, this.BG_WIDTH, this.BG_HEIGHT);
+			graphics.drawImage(this.image, 0,	0, this.BG_WIDTH, this.BG_HEIGHT, (2*(this.BG_WIDTH) - this.position), this.BG_HEIGHT, this.BG_WIDTH, this.BG_HEIGHT);
+		}
+		
+	};
 	
 };
 
