@@ -162,20 +162,36 @@ LevelScreen.prototype.update = function () {
     ///////////////////////////TEST COLLISIONS/////////////////////////
     // Test des colisions ! $
     // Pour tout les enemies
+	
+	var enemiesToDelete = [];
+	var bulletsToDelete = [];
+	
     for (i = 0; i < this.enemies.length; i++) {
-        for (j = 0; j < bulletsPlayer; j++) {
+        for (j = 0; j < bulletsPlayer.length; j++) {
             //on regarde si il se prend un boulette du joueur
             if (bulletsPlayer[j].hitTest(this.enemies[i])) {
-				console.log("bullet");
-               //supressFrom(this.enemies,this.enemies[i]);
+				enemiesToDelete.push(i);
+				bulletsToDelete.push(j);
+				var rect = new Rectangle(this.enemies[i].hitBox.x1-16,this.enemies[i].hitBox.y1-16,this.enemies[i].hitBox.x2+16,this.enemies[i].hitBox.y2+16);
+				this.animations.push( new Animation(this.enemies[i].x-16,this.enemies[i].y-16,0,0,0,rect,assetManager.getImage("img-explosion1"),5));
             }
         }
         //On regarde si il collide avec le joueur
         if (this.player.hitTest(this.enemies[i])) {
-            supressFrom(this.enemies,this.enemies[i]);
+			enemiesToDelete.push(i);
             // On perd une vie;
         }
     }
+	
+	for (j = 0; j < enemiesToDelete.length; j++) {
+		//on regarde si il se prend un boulette du joueur
+		supressFrom(this.enemies,this.enemies[enemiesToDelete[j]]);
+	}
+	for (j = 0; j < bulletsToDelete.length; j++) {
+		//on regarde si il se prend un boulette du joueur
+		supressFrom(bulletsPlayer,bulletsPlayer[bulletsToDelete[j]]);
+	}
+	
     // Pour toute les boulettes des enemies
     for (i = 0; i < this.bulletsEnemies.length; i++) {
 
@@ -211,11 +227,18 @@ LevelScreen.prototype.update = function () {
         }
     }
 	
-	/*
+	var animToDelete = [];
 	for(i = 0; i < this.animations.length; i++)
 	{
 		this.animations[i].update();
-	}*/
+		if(this.animations[i].toDelete)
+			animToDelete.push(i);
+	}
+	for (j = 0; j < animToDelete.length; j++) {
+		//on regarde si il se prend un boulette du joueur
+		supressFrom(this.animations,this.animations[animToDelete[j]]);
+	}
+	
 
 }
 

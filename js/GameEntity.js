@@ -146,12 +146,13 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
 			this.x += this.speed;
 		}
 		
-		this.hitBox.moveTo(this.x, this.y);
 		
 		if(this.x < 0) this.x = 0;
 		if(this.x > 592) this.x = 592;
 		if(this.y < 0) this.y = 0;
 		if(this.y > 448) this.y = 448;
+		
+		this.hitBox.moveTo(this.x, this.y);
 		
 		if(input.iskeyCode(input.shoot) && ((new Date())-this.lastShoot) >= 1000/this.shootRate){
 			
@@ -172,8 +173,7 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
     
 	this.shoot = function(){
     
-    	//var bullet = new Bullet(this.x + 43, this.y+5, 0, 0, 0, new Rectangle(this.x + 43, this.y+5,this.x + 67, this.y+17), 0);
-    	var bullet = new Bullet(this.x + 43, this.y+5, 0, 0, 0, new Rectangle(this.x -500, this.y-500,this.x + 500, this.y+500), 0);
+    	var bullet = new Bullet(this.x + 43, this.y+5, 0, 0, 0, new Rectangle(this.x + 43, this.y+5,this.x + 67, this.y+17), 0);
     	//LevelScreen.bulletsPlayer.push(bullet);
     	bulletsPlayer.push(bullet);
     };
@@ -338,6 +338,7 @@ var Animation = function(x,y,z,collisionGroups,collisionFilters, hitBox, image, 
     this.currFrame = 0;
     this.speedFrame = 10;
     this.tempo = 1;
+	this.toDelete =false;
 	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
@@ -349,10 +350,8 @@ var Animation = function(x,y,z,collisionGroups,collisionFilters, hitBox, image, 
 			this.currFrame += 1;
 		}
 		
-		
-		
 		if(this.currFrame >= numFrame)
-			this.currFrame = 0;
+			this.toDelete = true;
     }
 
 	this.image = image;
