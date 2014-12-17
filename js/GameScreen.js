@@ -167,28 +167,52 @@ LevelScreen.prototype.dispose = function() {
     for (i = 0; i < this.enemies.length; i++) {
         for (j = 0; j < bulletsPlayer; j++) {
             //on regarde si il se prend un boulette du joueur
-            if (bulletsPlayer[j].hitTest(this.enemies[i])) {
-                console.log("KABOOOM");
+
+            if (this.bulletsPlayer[j].hitTest(this.enemies[i])) {
+               // console.log("KABOOOM");
             }
         }
         //On regarde si il collide avec le joueur
         if (this.player.hitTest(this.enemies[i])) {
-            console.log("AARRRRGHHH!");
+           // console.log("AARRRRGHHH!");
             // On perd une vie;
         }
     }
     // Pour toute les boulettes des enemies
     for (i = 0; i < this.bulletsEnemies.length; i++) {
-        for (j = 0; j < bulletsPlayer.length; j++) {
-            if (bulletsPlayer[j].hitTest(this.bulletsEnemies[i])) {
-                console.log("Bullets Collide !");
+
+        for (j = 0; j < this.bulletsPlayer.length; j++) {
+            if (this.bulletsPlayer[j].hitTest(this.bulletsEnemies[i])) {
+               // console.log("Bullets Collide !");
+
             }
         }
         if (this.player.hitTest(this.bulletsEnemies[i])) {
-            console.log("Bullets Enemies collide player  !");
+            //console.log("Bullets Enemies collide player  !");
         }
     }
+    
     //////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////TEST FIN DE VIE DES BOULETTES ET ENEMIS /////////
+    for (i = 0; i < this.enemies.length; i++) {
+        if (this.enemies[i].x < -50) {
+
+        }
+    }
+
+    for (i = 0; i < this.bulletsPlayer.length; i++) {
+        if (this.bulletsPlayer[i].y < -50 || this.bulletsPlayer[i].y > 500 || this.bulletsPlayer[i].x > 700) {
+
+        }
+    }
+
+    for (i = 0; i < this.bulletsEnemies.length; i++) {
+        if (this.bulletsEnemies[i].x < -50 || this.bulletsEnemies[i].y > 500 || this.bulletsEnemies[i].x > 700) {
+
+        }
+    }
+
 };
 
 LevelScreen.prototype.render = function (graphics) {
