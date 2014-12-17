@@ -93,6 +93,7 @@ var LevelScreen = function() {
 LevelScreen.prototype = Object.create(GameScreen);
 
 LevelScreen.prototype.initialize = function() {
+
 	console.log('LevelScreen initialize');
 	
 	this.infiniteBackgrounds = [];
@@ -119,7 +120,7 @@ LevelScreen.prototype.update = function () {
 
     this.infiniteBackgrounds[0].update();
 	this.infiniteBackgrounds[1].update();
-	
+
 };
 
 LevelScreen.prototype.render = function (graphics) {

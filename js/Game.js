@@ -40,6 +40,7 @@ function Game() {
         gameCanvas.setAttribute("width", this.width);
         gameCanvas.setAttribute("height", this.height);
         document.getElementById("content").appendChild(gameCanvas);
+
         LevelScreen.prototype.initialize();
         this.setScreen(LevelScreen);
         this.graphics = gameCanvas.getContext("2d");
