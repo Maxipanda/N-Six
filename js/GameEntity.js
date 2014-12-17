@@ -221,7 +221,7 @@ var Enemy = function(x,y,z,hitBox) {
 		
 		this.hitBox.moveTo(this.x, this.y);
 		
-		if(((new Date()) - lastShoot) > 2000 && this.x < 640 && this.x > 0){
+		if(((new Date()) - this.lastShoot) > 2000 && this.x < 640 && this.x > 0){
 			this.shoot();
 			this.lastShoot = new Date();	
 		}
