@@ -130,25 +130,32 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
 		this.checkCoordinates("Function update, undefined coordinates");
 		
 		/*Check pressed touched*/
+		var mvX, mvY;
+		
 		if(input.iskeyCode(input.down)){
 			this.y += this.speed;
-			console.log("yy");
+			mvY = this.speed;
 		}
 		if(input.iskeyCode(input.up)){
 			this.y -= this.speed;
+			mvY = -this.speed;
 		}
 		if(input.iskeyCode(input.left)){
 			this.x -= this.speed;
+			mvX = -this.speed;
 		}
 		if(input.iskeyCode(input.right)){
 			this.x += this.speed;
+			mvX = this.speed;
 		}
 		
+		this.hitBox.moveTo(this.x + mvX, this.y + mvY);
 		
 		if(this.x < 0) this.x = 0;
 		if(this.x > 432) this.x = 432;
 		if(this.y < 0) this.y = 0;
 		if(this.y > 608) this.y = 608;
+		
     }
 	
 	this.render = function(g){
@@ -209,12 +216,6 @@ var Enemy = function(x,y,z,collisionGroups,collisionFilters, hitBox) {
 			this.y += this.speedY;
 		else if (y < this.y)
 			this.y -= this.speedY;
-	}
-	
-	//TODO: Remove when AssetManager is implemented
-	if(typeof AssetManager == 'undefined'){
-		this.image= new Image();
-		this.image.src = "./images/Enemy01.png";
 	}
 	
 	this.render = function(g){
