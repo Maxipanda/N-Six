@@ -126,6 +126,7 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
     this.weaponId = weaponId;
     this.speed = 4;
     this.lastShoot = new Date();
+    this.shootRate = 10;
 	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
@@ -157,7 +158,9 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
 		if(this.y < 0) this.y = 0;
 		if(this.y > 448) this.y = 448;
 		
-		if(input.iskeyCode(input.shoot) && (new Date())-this.lastShoot >= 1000){
+		if(input.iskeyCode(input.shoot) && ((new Date())-this.lastShoot) >= 1000/this.shootRate){
+			
+			this.lastShoot = new Date();
 			this.shoot();	
 		}
 		
@@ -172,7 +175,7 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
     
 	this.shoot = function(){
     
-    	var bullet = new Bullet(this.x + 48, this.y, 0, 0, 0, new Rectangle(this.x + 48, this.y), 0);
+    	var bullet = new Bullet(this.x + 43, this.y+5, 0, 0, 0, new Rectangle(this.x + 48, this.y), 0);
     	//LevelScreen.bulletsPlayer.push(bullet);
     	bulletsPlayer.push(bullet);
     };
