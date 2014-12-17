@@ -162,12 +162,12 @@ LevelScreen.prototype.update = function () {
         for (j = 0; j < this.bulletsPlayer; j++) {
             //on regarde si il se prend un boulette du joueur
             if (this.bulletsPlayer[j].hitTest(this.enemies[i])) {
-                console.log("KABOOOM");
+               // console.log("KABOOOM");
             }
         }
         //On regarde si il collide avec le joueur
         if (this.player.hitTest(this.enemies[i])) {
-            console.log("AARRRRGHHH!");
+           // console.log("AARRRRGHHH!");
             // On perd une vie;
         }
     }
@@ -175,11 +175,11 @@ LevelScreen.prototype.update = function () {
     for (i = 0; i < this.bulletsEnemies.length; i++) {
         for (j = 0; j < this.bulletsPlayer.length; j++) {
             if (this.bulletsPlayer[j].hitTest(this.bulletsEnemies[i])) {
-                console.log("Bullets Collide !");
+               // console.log("Bullets Collide !");
             }
         }
         if (this.player.hitTest(this.bulletsEnemies[i])) {
-            console.log("Bullets Enemies collide player  !");
+            //console.log("Bullets Enemies collide player  !");
         }
     }
     //////////////////////////////////////////////////////////////////////////
