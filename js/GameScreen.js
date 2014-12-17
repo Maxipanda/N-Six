@@ -92,14 +92,15 @@ var LevelScreen = function() {
 LevelScreen.prototype = Object.create(GameScreen);
 
 LevelScreen.prototype.initialize = function() {
-	console.log('LevelScreen initialize');
+    console.log('LevelScreen initialize');
+
 };
 
-LevelScreen.prototype.update = function() {
-	
+LevelScreen.prototype.update = function () {
+    
 };
 
-LevelScreen.prototype.render = function() {
+LevelScreen.prototype.render = function () {
 	
 };
 
