@@ -128,6 +128,10 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
     this.lastShoot = new Date();
     this.shootRate = 10;
 	
+	this.isHit = false;
+	this.dateHit = new Date();
+	this.hidden = false;
+	
 	this.update = function(){
 		this.checkCoordinates("Function update, undefined coordinates");
 		
@@ -166,7 +170,35 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
 	this.render = function(g){
 		this.checkCoordinates("Function render undefined coordinates");
         if(g == undefined){alert("Function render undefined parameter g (HTMLCanvas2DContext)");}
-		g.drawImage(assetManager.getImage("img-spaceship1"), this.x, this.y);
+		
+		if(this.isHit)
+		{
+			if(((new Date())-this.dateHit) >= 3000)
+			{
+				this.isHit = false;
+				this.hidden = false;
+			}
+			else
+			{
+				var delta = (new Date())-this.dateHit;
+				if(( delta < 500) ||
+					(( delta > 1000) && (delta < 1500)) ||
+					(( delta > 2000) && (delta < 2500))) 
+				{
+					hidden = true;
+				}
+				else
+					hidden = false;
+			}
+			
+			if(! hidden)
+				g.drawImage(assetManager.getImage("img-spaceship1"), this.x, this.y);
+			
+		}
+		else
+		{
+			g.drawImage(assetManager.getImage("img-spaceship1"), this.x, this.y);
+		}
 
     };
     
@@ -177,6 +209,18 @@ var Player = function(x,y,z,collisionGroups,collisionFilters, hitBox, weaponId) 
     	//LevelScreen.bulletsPlayer.push(bullet);
     	bulletsPlayer.push(bullet);
     };
+	
+	this.getHit = function()
+	{
+		if(! this.isHit)
+		{
+			this.isHit = true;
+			this.dateHit = new Date();
+			this.hidden = true;
+		}
+	
+	}
+	
 };
 
 /**

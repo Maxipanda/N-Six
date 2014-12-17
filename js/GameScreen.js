@@ -179,6 +179,8 @@ LevelScreen.prototype.update = function () {
         //On regarde si il collide avec le joueur
         if (this.player.hitTest(this.enemies[i])) {
 			enemiesToDelete.push(i);
+			var rect = new Rectangle(this.enemies[i].hitBox.x1-16,this.enemies[i].hitBox.y1-16,this.enemies[i].hitBox.x2+16,this.enemies[i].hitBox.y2+16);
+				this.animations.push( new Animation(this.enemies[i].x-16,this.enemies[i].y-16,0,0,0,rect,assetManager.getImage("img-explosion1"),5));
             // On perd une vie;
         }
     }
