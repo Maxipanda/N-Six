@@ -14,6 +14,7 @@ function UneClasse(paramA, paramB){
 var instance1 = new UneClasse();
 */
 
+var game;
 var assetManager;
 var input;
 
